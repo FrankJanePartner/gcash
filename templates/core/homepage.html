@@ -57,9 +57,131 @@
                 <div id="balance" class="balance-amount">₱ ••••</div>
                 <button class="cash-in">+ Cash In</button>
             </div>
+
+            <div class="copy-container">
+                <div class="acc-word">Account No:</div>
+                <div class="acc-num" id="accountText">000******** </div>
+                <img src="https://img.icons8.com/material-outlined/24/000000/copy.png" alt="Copy" class="clipboard-icon" onclick="copyToClipboard()" />
+                <span class="copied-msg" id="copiedMsg">Copied!</span>
+            </div>
+            </div>
+
+        </div>
+
+        
+        <div class="wallet-click-container">
+            <div class="wallet-sub-click">
+                <div class="click-option-one">
+
+                    <div class="click-send">
+                        <img src="{% static 'core/asset/send.png' %}">
+                        <div class="send-text">Send</div>
+                    </div>
+
+                    <div class="click-send">
+                        <img src="{% static 'core/asset/load.png' %}">
+                        <div class="send-text">Load</div>
+                    </div>
+
+                    <div class="click-send">
+                        <img src="{% static 'core/asset/transfer.png' %}">
+                        <div class="send-text">Transfer</div>
+                    </div>
+
+                    <div class="click-send">
+                        <img src="{% static 'core/asset/bills.png' %}">
+                        <div class="send-text">Bills</div>
+                    </div>
+
+                </div>
+
+                <div class="click-option-one">
+
+                    <div class="click-send">
+                        <img src="{% static 'core/asset/send.png' %}">
+                        <div class="send-text">Borrow</div>
+                    </div>
+        
+                    <div class="click-send">
+                        <img src="{% static 'core/asset/g-save.png' %}">
+                        <div class="send-text">GSave</div>
+                    </div>
+        
+                    <div class="click-send">
+                        <img src="{% static 'core/asset/g-invest.png' %}">
+                        <div class="send-text">GInvest</div>
+                    </div>
+        
+                    <div class="click-send">
+                        <img src="{% static 'core/asset/view-all.png' %}">
+                        <div class="send-text">View</div>
+                    </div>
+        
+                </div>
+            </div>
+
+        </div>
+
+        <div class="explore-app">
+            <div class="explore-text">Explore the App</div>
+
+            <div class="explore-tab">
+                <div class="explore-option">
+                    <img src="{% static 'core/asset/g-insure.png' %}">
+                    <div class="g-insure-text">GInsure</div>
+                </div>
+
+                <div class="explore-option">
+                    <img src="{% static 'core/asset/g-life.png' %}">
+                    <div class="g-insure-text">GLife</div>
+                </div>
+
+                <div class="explore-option">
+                    <img src="{% static 'core/asset/review.png' %}">
+                    <div class="g-insure-text">Review</div>
+                </div>
+
+                <div class="explore-option">
+                    <img src="{% static 'core/asset/forest.png' %}">
+                    <div class="g-insure-text">GForest</div>
+                </div>
+
+                <div class="explore-option">
+                    <img src="{% static 'core/asset/card.png' %}">
+                    <div class="g-insure-text">Cards</div>
+                </div>
+
+            </div>
+
+            <div class="banner-img">
+                <img src="{% static 'core/asset/gcash_banner.png' %}">
             </div>
         </div>
 
+        <nav class="bottom-navbar">
+    <a href="#" class="nav-item active">
+      <img src="{% static 'core/asset/home.png' %}">
+      <span>Home</span>
+    </a>
+    <a href="#" class="nav-item">
+      <img src="{% static 'core/asset/inbox.png' %}">
+      <span>Inbox</span>
+    </a>
+    <a href="#" class="nav-item qr">
+      <div class="qr-icon">
+        <img src="{% static 'core/asset/qr-code.png' %}">
+      </div>
+      <span>QR</span>
+    </a>
+    <a href="#" class="nav-item">
+      <img src="{% static 'core/asset/transaction.png' %}">
+      <span>Transactions</span>
+    </a>
+    <a href="#" class="nav-item">
+      <img src="{% static 'core/asset/profile.png' %}" >
+      <span>Profile</span>
+    </a>
+  </nav>
     </div>
 
     <script src="{% static 'core/js/homepage.js' %}"></script>

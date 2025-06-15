@@ -6,8 +6,222 @@
     <title>Dashboard | GCash</title>
 </head>
 <body>
-    Hi {{ user }}
-    <div class="balance"> <span>GCash Balance</span> – ₱ {{ balance }}</div>
-    <div class="balance"> <span>Account Number</span> – ₱ {{ profile.account_number }}</div>
+    Hi 
+    <div class="balance"> <span>GCash Balance</span> – ₱ </div>
+    <div class="balance"> <span>Account Number</span> – ₱ </div>
+</body>
+</html>{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | GCash</title>
+    <link rel="stylesheet" href="{% static 'core/css/homepage.css' %}">
+</head>
+<body>
+    <div class="homepage-container">
+
+        <div class="wallet-header">
+
+            <div class="wallet-logo">
+                <img src="{% static 'core/asset/logo 2.png' %}">
+                <span>Hello {{ user }}!</span>
+            </div>
+
+            <div class="tap">
+                <div>Tap for</div>
+                <div>Summer Deals</div>
+            </div>
+
+            <div class="help">Help</div>
+
+        </div>
+
+
+        <div class="wallet-column">
+
+            <div class="first-wallet-column">
+                <div class="wallet-text">
+                    <p>Wallet</p>
+                </div>
+                <div class="save-text">
+                    <p>Save</p>
+                </div>
+                <div class="borrow-text">
+                    <p>Borrow</p>
+                </div>
+                <div class="grow-text">
+                    <p>Grow</p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="wallet-container">
+            <div class="wallet">
+            <div class="balance-section">
+                <div class="available-balance">Available balance</div>
+                <button class="eye-icon" onclick="toggleBalance()">👁️</button>
+            </div>
+
+            <div class="visible-cash">
+                <div id="balance" class="balance-amount">₱ ••••</div>
+                <button class="cash-in">+ Cash In</button>
+            </div>
+
+            <div class="copy-container">
+                <div class="acc-word">Account No:</div>
+                <div class="acc-num" id="accountText">{{ profile.account_number }} </div>
+                <img src="https://img.icons8.com/material-outlined/24/000000/copy.png" alt="Copy" class="clipboard-icon" onclick="copyToClipboard()" />
+                <span class="copied-msg" id="copiedMsg">Copied!</span>
+            </div>
+            </div>
+
+        </div>
+
+        
+        <div class="wallet-click-container">
+            <div class="wallet-sub-click">
+                <div class="click-option-one">
+
+                    <div class="click-send">
+                        <img src="{% static 'core/asset/send.png' %}">
+                        <div class="send-text">Send</div>
+                    </div>
+
+                    <div class="click-send">
+                        <img src="{% static 'core/asset/load.png' %}">
+                        <div class="send-text">Load</div>
+                    </div>
+
+                    <div class="click-send">
+                        <img src="{% static 'core/asset/transfer.png' %}">
+                        <div class="send-text">Transfer</div>
+                    </div>
+
+                    <div class="click-send">
+                        <img src="{% static 'core/asset/bills.png' %}">
+                        <div class="send-text">Bills</div>
+                    </div>
+
+                </div>
+
+                <div class="click-option-one">
+
+                    <div class="click-send">
+                        <img src="{% static 'core/asset/send.png' %}">
+                        <div class="send-text">Borrow</div>
+                    </div>
+        
+                    <div class="click-send">
+                        <img src="{% static 'core/asset/g-save.png' %}">
+                        <div class="send-text">GSave</div>
+                    </div>
+        
+                    <div class="click-send">
+                        <img src="{% static 'core/asset/g-invest.png' %}">
+                        <div class="send-text">GInvest</div>
+                    </div>
+        
+                    <div class="click-send">
+                        <img src="{% static 'core/asset/view-all.png' %}">
+                        <div class="send-text">View</div>
+                    </div>
+        
+                </div>
+            </div>
+
+        </div>
+
+        <div class="explore-app">
+            <div class="explore-text">Explore the App</div>
+
+            <div class="explore-tab">
+                <div class="explore-option">
+                    <img src="{% static 'core/asset/g-insure.png' %}">
+                    <div class="g-insure-text">GInsure</div>
+                </div>
+
+                <div class="explore-option">
+                    <img src="{% static 'core/asset/g-life.png' %}">
+                    <div class="g-insure-text">GLife</div>
+                </div>
+
+                <div class="explore-option">
+                    <img src="{% static 'core/asset/review.png' %}">
+                    <div class="g-insure-text">Review</div>
+                </div>
+
+                <div class="explore-option">
+                    <img src="{% static 'core/asset/forest.png' %}">
+                    <div class="g-insure-text">GForest</div>
+                </div>
+
+                <div class="explore-option">
+                    <img src="{% static 'core/asset/card.png' %}">
+                    <div class="g-insure-text">Cards</div>
+                </div>
+
+            </div>
+
+            <div class="banner-img">
+                <img src="{% static 'core/asset/gcash_banner.png' %}">
+            </div>
+        </div>
+
+        <nav class="bottom-navbar">
+    <a href="#" class="nav-item active">
+      <img src="{% static 'core/asset/home.png' %}">
+      <span>Home</span>
+    </a>
+    <a href="#" class="nav-item">
+      <img src="{% static 'core/asset/inbox.png' %}">
+      <span>Inbox</span>
+    </a>
+    <a href="#" class="nav-item qr">
+      <div class="qr-icon">
+        <img src="{% static 'core/asset/qr-code.png' %}">
+      </div>
+      <span>QR</span>
+    </a>
+    <a href="#" class="nav-item">
+      <img src="{% static 'core/asset/transaction.png' %}">
+      <span>Transactions</span>
+    </a>
+    <a href="#" class="nav-item">
+      <img src="{% static 'core/asset/profile.png' %}" >
+      <span>Profile</span>
+    </a>
+  </nav>
+    </div>
+
+    <script>
+        const balanceEl = document.getElementById('balance');
+    let isVisible = false;
+    const actualAmount = '₱ {{ balance }}';
+
+    function toggleBalance() {
+      isVisible = !isVisible;
+      balanceEl.textContent = isVisible ? actualAmount : '₱ ••••';
+    }
+
+
+
+// Clipboard Code Start
+ function copyToClipboard() {
+      const text = document.getElementById("accountText").textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const msg = document.getElementById("copiedMsg");
+        msg.classList.add("show");
+        setTimeout(() => {
+          msg.classList.remove("show");
+        }, 2000); // hide after 2 seconds
+      }).catch(err => {
+        console.error("Failed to copy: ", err);
+      });
+    }
+// Clipboard Code End
+    </script>
 </body>
 </html>

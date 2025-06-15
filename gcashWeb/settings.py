@@ -8,7 +8,7 @@ SECRET_KEY = 'django-insecure-)%%6jpw3k2^+mng=4jh(fke=p)hbkh$2-^3&w+5j%3#n%7c*at
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['gcash.pythonanywhere.com']
 
 SITE_ID = 1
 

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="send-two.css">
+</head>
+<body>
+    
+    <div class="send-container">
+        <div class="send-nav">
+            <div class="arrow">
+                <a href="#">
+                    <img src="asset/arrow.png">
+                </a>
+            </div>
+
+            <div class="send">Send</div>
+
+            <div class="caution">
+                <img src="asset/Frame.png">
+            </div>
+        </div>
+    </div>
+
+    <div class="gcash-banner">
+        <img src="asset/gcash_banner.png">
+    </div>
+
+    <div class="content">
+
+      <div class="balance"> <span>GCash Balance</span> – ₱ 9,455,105.00</div>
+
+      <div class="form-group">
+         <label for="account">To (Account Number)</label>
+         <!-- <input id="account" type="text" value="63452746632" readonly> -->
+         <input id="account" type="text" placeholder="63452746632" >
+         <label for="account-name" class="account-name">Onos Adevwaya</label>
+      </div>
+
+      <div class="form-group">
+         <label for="amount">Amount</label>
+         <input id="amount" type="text" placeholder="₱ 0.00">
+      </div>
+
+      <div class="form-group">
+         <label for="note">Note (Optional)</label>
+         <input class="note-input" id="note" type="text" placeholder="What’s this for?">
+      </div>
+
+      <button class="send-btn" onclick="openModal()">Send Money</button>
+
+    </div>
+
+    <!-- Modal  Start-->
+        <div class="modal" id="transactionModal">
+            <div class="modal-content">
+                <h3>Enter Transaction Code</h3>
+                <p>To complete this transaction, please enter your transaction code.</p>
+                <input id="transactionCode" minlength="6" maxlength="6" type="password" placeholder="••••••">
+                <button class="confirm-btn" onclick="confirmTransaction()">Confirm Transaction</button>
+            </div>
+        </div>
+    <!-- Modal End-->
+   
+    
+    <script src="send-two.js"></script>
+</body>
+</html>

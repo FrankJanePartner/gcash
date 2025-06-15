@@ -49,7 +49,6 @@
   width: 100%;
   margin-top: 20px;
 }
-
 .input-box label {
   color: #002CB8;
   font-weight: 600;
@@ -112,27 +111,6 @@
 .signin-click a {
   text-decoration: none;
   color: #002CB8;
-}
-
-form p.input-box{
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-between;
-}
-
-form p.input-box input{
-    position: relative;
-  height: 50px;
-  width: 100%;
-  outline: none;
-  font-size: 1rem;
-  color: #707070;
-  margin-top: 8px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  padding: 0 15px;
 }
 
 /*Responsive*/
