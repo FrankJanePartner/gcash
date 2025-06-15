@@ -1,0 +1,100 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transfer | GCash</title>
+    <link rel="stylesheet" href="{% static 'core/css/transfer-one.css' %}">
+</head>
+<body>
+    <div class="send-container">
+        <div class="send-nav">
+            <div class="arrow">
+                <a href="#">
+                    <img src="{% static 'core/asset/arrow.png' %}">
+                </a>
+            </div>
+
+            <div class="send">Send</div>
+
+            <div class="caution">
+                <img src="{% static 'core/asset/Frame.png' %}">
+            </div>
+        </div>
+    </div>
+
+    <div class="gcash-banner">
+        <img src="{% static 'core/asset/gcash_banner.png' %}">
+    </div>
+
+    <div class="tranfer-one-content">
+
+        <div class="easily">Easily Transfer Funds now!</div>
+
+        <div class="easily-two">Save your bank accounts and schedule <br> automatic GCash wallet transfer.</div>
+
+        <div class="add">Add account</div>
+
+        <div class="partner-bank">Partner Bank</div>
+
+
+        <div class="scan">
+            <div class="scan-one">Scan/Upload Bank QR</div>
+            <div class="scan-two">Bank transfer by scanning or uplaoding QR code</div>
+        </div>
+
+        <div class="banks-api-container">
+
+            <div class="first-bank-section">
+
+                <div class="image">
+                    <img src="{% static 'core/asset/bank1.png' %}">
+                </div>
+
+                <div class="image">
+                    <img src="{% static 'core/asset/bank2.png' %}">
+                </div>
+
+                <div class="image">
+                    <img src="{% static 'core/asset/bank3.png' %}">
+                </div>
+
+                <div class="image">
+                    <img src="{% static 'core/asset/bank1.png' %}">
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        fetch("{% static 'data/bank.json' %}")
+            .then(response => response.json())
+            .then(data => {
+            const container = document.getElementById('banks-api-container');
+
+            for (const [category, banks] of Object.entries(data)) {
+                const section = document.createElement('div.first-bank-section');
+                section.innerHTML = `<h2>${category.replace(/_/g, ' ').toUpperCase()}</h2>`;
+
+                const list = document.createElement('div.image');
+                banks.forEach(bank => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <img src="${bank['bank-logo']}" alt="${bank['bank-name']}" width="80">
+                    <strong>${bank['bank-name']}</strong> (${bank['bank-code']})
+                `;
+                list.appendChild(li);
+                });
+
+                section.appendChild(list);
+                container.appendChild(section);
+            }
+            })
+            .catch(error => console.error('Error loading bank data:', error));
+        </script>
+
+</body>
+</html>

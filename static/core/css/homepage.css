@@ -1,0 +1,153 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lilita+One&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+.homepage-container {
+    background-color: #FFFFFF;
+}
+
+.wallet-header {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 2rem;
+}
+
+.wallet-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.wallet-logo span {
+    font-weight: 800;
+    font-size: 16px;
+    color: #1A72FA;
+}
+
+.tap {
+    width: 132px;
+    height: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 50px;
+    padding: 10px;
+    color: white;
+    background-color: #FFA401;
+    font-weight: 800;
+    font-size: 12px;
+}
+
+.help {
+    width: 68px;
+    height: 37px;
+    padding: 10px;
+    border-radius: 50px;
+    text-align: center;
+    font-weight: 800;
+    font-size: 14px;
+    color: #FFFFFF;
+    background-color: #035AE7;
+}
+
+.wallet-column {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.first-wallet-column {
+    display: flex;
+    background-color: #035AE7;
+    width: 74vw;
+    height: 60px;
+}
+
+.wallet-text, .save-text, .borrow-text, .grow-text {
+    background-color: #1A72FA;
+    color: #FFFFFF;
+    font-weight: 600;
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* width: 89.5px; */ width: 400px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    cursor: pointer;
+}
+
+.save-text, .borrow-text, .grow-text {
+    background-color: #f9f9f9;
+    color: #1A72FA;
+}
+
+.wallet-container {
+    display: flex;
+    justify-content: center;
+}
+
+.wallet {
+    display: flex;
+    flex-direction: column;
+    background-color: #035AE7;
+    width: 74vw;
+    height: 150px;
+    padding: 20px;
+}
+
+.balance-section {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.balance-section {
+    font-weight: 600;
+    font-size: 25px;
+    color: #A2D4FF;
+}
+
+.eye-icon {
+    cursor: pointer;
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    color: white;
+}
+
+.visible-cash {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    gap: 80%;
+}
+
+.balance-amount{
+    font-weight: 600;
+    font-size: 24px;
+    color: #FFFFFF;
+}
+
+.cash-in {
+    width: 116px;
+    height: 36px;
+    /* gap: 10px; */
+    border-radius: 100px;
+    padding: 10px;
+    font-size: 16px;
+    background: #DEEEFE;
+    color: #1A72FA;
+    border-radius: 20px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+}
+

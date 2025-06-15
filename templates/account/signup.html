@@ -1,0 +1,85 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>SignUp | GCash</title>
+    <link rel="stylesheet" href="{% static 'core/css/signup.css' %}" />
+  </head>
+  <body>
+
+    <div class="container">
+
+      <div class="gcash-img">
+        <img src="{% static 'core/asset/gcash_logo.png' %}" alt="gcash_logo">
+      </div>  
+
+      <section class="form-container">
+
+        <div class="signup-text">Sign Up</div>
+
+        <form action="/accounts/signup/" class="form" method="post">
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger" style="text-align: center; width: 100%; color: red;">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+            
+            <!-- Loop through each field in the form -->
+            {% for field in form %}
+                <div>
+                    {% if field.errors %}
+                        <div class="alert alert-danger" style="text-align: center; width: 100%; color: red;">
+                            {{ field.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+          <div class="input-box">
+            <label for="id_first_name">First Name</label>
+            <input type="text" name="first_name" autocomplete="given-name" maxlength="320" placeholder="First Name " id="id_first_name" required />
+          </div>
+
+          <div class="input-box">
+            <label for="id_last_name">Last Name</label>
+            <input type="text" name="last_name" autocomplete="family-name" maxlength="320" placeholder="Last Name " id="id_last_name" required />
+          </div>
+          
+          <div class="input-box">
+            <label for="id_email">Email</label>
+            <input type="email" name="email" autocomplete="email" maxlength="320" placeholder="anonymous@gmail.com " id="id_email" required />
+          </div>
+          
+          <div class="input-box">
+            <label for="id_password1">Password</label>
+            <input type="password" name="password1" autocomplete="new-password" aria-describedby="id_password1_helptext" id="id_password1" placeholder="Enter your password" required />
+            <span class="helptext" id="id_password1_helptext"></span>
+          </div>
+
+          <div class="input-box">
+            <label for="id_password2"> Confirm Password</label>
+            <input type="password" placeholder="Enter your password" name="password2" autocomplete="new-password" id="id_password2" required />
+          </div>
+
+          <div class="check-box">
+            <input type="checkbox" name="remember" id="remember">
+            <div class="remember-me">Remember me</div>
+          </div>
+          
+          <button type="submit">Sign Up</button>
+
+          <div class="version">v5.87.1:1038</div>
+
+          <div class="signup-click">Already have an account yet? <a href="/accounts/login/"> Sign In.</a></div>
+        
+        </form>
+
+      </section>
+
+    </div>
+
+  </body>
+</html>

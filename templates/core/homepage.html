@@ -1,0 +1,67 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home | GCash</title>
+    <link rel="stylesheet" href="{% static 'core/css/homepage.css' %}">
+</head>
+<body>
+    <div class="homepage-container">
+
+        <div class="wallet-header">
+
+            <div class="wallet-logo">
+                <img src="{% static 'core/asset/logo 2.png' %}">
+                <span>Hello!</span>
+            </div>
+
+            <div class="tap">
+                <div>Tap for</div>
+                <div>Summer Deals</div>
+            </div>
+
+            <div class="help">Help</div>
+
+        </div>
+
+
+        <div class="wallet-column">
+
+            <div class="first-wallet-column">
+                <div class="wallet-text">
+                    <p>Wallet</p>
+                </div>
+                <div class="save-text">
+                    <p>Save</p>
+                </div>
+                <div class="borrow-text">
+                    <p>Borrow</p>
+                </div>
+                <div class="grow-text">
+                    <p>Grow</p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="wallet-container">
+            <div class="wallet">
+            <div class="balance-section">
+                <div class="available-balance">Available balance</div>
+                <button class="eye-icon" onclick="toggleBalance()">👁️</button>
+            </div>
+
+            <div class="visible-cash">
+                <div id="balance" class="balance-amount">₱ ••••</div>
+                <button class="cash-in">+ Cash In</button>
+            </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="{% static 'core/js/homepage.js' %}"></script>
+</body>
+</html>

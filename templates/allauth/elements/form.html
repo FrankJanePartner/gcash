@@ -1,0 +1,29 @@
+{% load allauth %}
+{% load form_tags %}
+
+<form method="{{ attrs.method }}"  class="form"
+      {% if attrs.action %}action="{{ attrs.action }}"{% endif %}>
+      {{ form|render_with_class|safe }}
+      {% if form.non_field_errors %}
+          <div class="alert alert-danger" style="text-align: center; width: 100%; color: red;">
+              {{ form.non_field_errors }}
+          </div>
+      {% endif %}
+      
+      <!-- Loop through each field in the form -->
+      {% for field in form %}
+          <div style="text-align: center; width: 100%; color: red;">
+              {% if field.errors %}
+                  <div class="alert alert-danger">
+                      {{ field.errors }}
+                  </div>
+              {% endif %}
+          </div>
+      {% endfor %}
+
+    {% slot body %}
+    
+    {% endslot %}
+    {% slot actions %}
+    {% endslot %}
+</form>

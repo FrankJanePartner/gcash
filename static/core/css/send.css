@@ -1,0 +1,137 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lilita+One&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'inter', sans-serif;
+}
+
+.send-container {
+    background-color: #ECF3FB;
+}
+
+.send-nav {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 15px;
+    padding-right: 15px;
+    background-color: #1A72FA;
+}
+
+.send {
+    color: #FFFFFF;
+    font-weight: 800;
+    font-size: 16px;
+}
+
+.gcash-banner {
+    margin-top: 20px;
+    display: flex;
+    margin-left: 1.5rem;
+}
+
+.gcash-banner img {
+    width: 90vw;
+    height: 40vh; 
+}
+
+.send-money {
+    font-weight: 800;
+    font-size: 16px;
+    margin-top: 20px;
+}
+
+.send-content {
+    margin-left: 1.5rem;
+}
+
+.express-link {
+    text-decoration: none;
+}
+
+.express-send, .instant-cash {
+    width: 90vw;
+    height: 90px;
+    border-radius: 8px;
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #E7E6E6;
+    color: #7A8490;
+    gap: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.express-text .e-text-one, .same-one {
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 5px;
+    color: #0E1F3D;
+}
+
+.instant-cash {
+    color: #A85718;
+    background-color: #FED7B8;
+}
+
+
+.same-one {
+    color: #6C2B0B;
+}
+
+.send-money-t {
+    margin-top: 20px;
+}
+
+.send-money-t span {
+    color: #2159AE;
+}
+
+
+/* RESPONSIVENESS START */
+@media screen and (max-width: 767px) {
+    /* HEADER START */
+    
+   .gcash-banner img {
+        width: 325px;
+        height: 35vh; 
+    }
+
+    .express-send, .instant-cash {
+        width: 325px;
+    }
+
+}
+
+@media screen and (max-width: 344px){
+    .gcash-banner img {
+        width: 280px;
+        height: 35vh; 
+    }
+
+    .express-send, .instant-cash {
+        width: 280px;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+    /* Styles for tablet */
+    
+   .gcash-banner img {
+        width: 80vwpx;
+        height: 35vh; 
+    }
+
+    .express-send, .instant-cash {
+        width: 680px;
+    }
+
+}
+
+@media screen and (min-width: 1280px) {
+
+}

@@ -1,0 +1,77 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transfer | GCash</title>
+    <link rel="stylesheet" href="{% static 'core/css/transfer-two.css' %}">
+</head>
+<body>
+    
+    <div class="send-container">
+        <div class="send-nav">
+            <div class="arrow">
+                <a href="#">
+                    <img src="{% static 'core/asset/arrow.png' %}">
+                </a>
+            </div>
+
+            <div class="send">Send</div>
+
+            <div class="caution">
+                <img src="{% static 'core/asset/Frame.png' %}">
+            </div>
+        </div>
+    </div>
+
+    <div class="gcash-banner">
+        <img src="{% static 'core/asset/gcash_banner.png' %}">
+    </div>
+
+    <div class="content">
+
+      <div class="choose-bank">
+        <img src="{% static 'core/asset/bank1.png' %}">
+        <span>BDO Unibank, Inc.</span>
+      </div>
+
+      <div class="form-group">
+         <label for="Nickname">Nickname</label>
+         <input id="Nickname" type="text" placeholder="63452746632" >
+      </div>
+
+      <div class="form-group">
+         <label for="account-name">Account name</label>
+         <input id="amount" type="text" placeholder="Max of 50 characters">
+      </div>
+
+      <div class="form-group">
+         <label for="account-number">Account number</label>
+         <input id="account-number" type="text" placeholder="12 Digits">
+      </div>
+
+      <div class="form-group">
+         <label for="note">Send receipts to (optional)</label>
+         <input class="note-input" id="note" type="text" placeholder="johnkennedy@gmail.com">
+      </div>
+
+      <button class="send-btn" onclick="openModal()">Send Money</button>
+
+    </div>
+
+    <!-- Modal  Start-->
+        <div class="modal" id="transactionModal">
+            <div class="modal-content">
+                <h3>Enter Transaction Code</h3>
+                <p>To complete this transaction, please enter your transaction code.</p>
+                <input id="transactionCode" minlength="6" maxlength="6" type="password" placeholder="••••••">
+                <button class="confirm-btn" onclick="confirmTransaction()">Confirm Transaction</button>
+            </div>
+        </div>
+    <!-- Modal End-->
+   
+    
+    <script src="{% static 'core/js/transfer-two.js' %}"></script>
+</body>
+</html>

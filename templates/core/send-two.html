@@ -1,0 +1,186 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Express Send | GCash</title>
+    <link rel="stylesheet" href="{% static 'core/css/send-two.css' %}">
+</head>
+<body>
+    
+    <div class="send-container">
+        <div class="send-nav">
+            <div class="arrow">
+                <a href="/send/">
+                    <img src="{% static 'core/asset/arrow.png' %}">
+                </a>
+            </div>
+
+            <div class="send">Send</div>
+
+            <div class="caution">
+                <img src="{% static 'core/asset/Frame.png' %}">
+            </div>
+        </div>
+    </div>
+
+    <div class="gcash-banner">
+        <img src="{% static 'core/asset/gcash_banner.png' %}">
+    </div>
+
+    <div class="content">
+        <form action="" method="post"  id="sendForm" onsubmit="event.preventDefault(); openModal();">
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger" style="text-align: center; width: 100%; color: red;">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+            
+            <!-- Loop through each field in the form -->
+            {% for field in form %}
+                <div style="text-align: center; width: 100%; color: red;">
+                    {% if field.errors %}
+                        <div class="alert alert-danger">
+                            {{ field.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            <div class="balance"> <span>GCash Balance</span> – ₱ {{ balance }}</div>
+
+            <div class="form-group">
+                <label for="account">To (Account Number)</label>
+                <!-- <input id="account" type="text" value="63452746632" readonly> -->
+                <input id="account" name="account" type="text" placeholder="63452746632" value="">
+                <div class="account-name"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="amount">Amount</label>
+                <input id="amount" name="amount" type="text" placeholder="₱ 0.00">
+            </div>
+
+            <div class="form-group">
+                <label for="note">Note (Optional)</label>
+                <input class="note-input" id="note" name="note" type="text" placeholder="What’s this for?">
+            </div>
+
+            <button class="send-btn">Send Money</button>
+        </form>
+    </div>
+
+    <!-- Modal  Start-->
+        <div class="modal" id="transactionModal">
+            <div class="modal-content">
+                <h3>Enter Transaction Code</h3>
+                <p>To complete this transaction, please enter your transaction code.</p>
+                <input id="transactionCode"  name="otp" minlength="6" maxlength="6" type="password" placeholder="••••••">
+                <button class="confirm-btn" onclick="confirmTransaction()">Confirm Transaction</button>
+            </div>
+        </div>
+    <!-- Modal End-->
+   
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const accountInput = document.getElementById('account');
+            const nameLabel = document.querySelector('.account-name');
+
+            // Auto-fetch account name when user types
+            accountInput.addEventListener('input', function () {
+                const accountNumber = this.value.trim();
+
+                if (accountNumber.length >= 1) {
+                    // Add loading indicator (optional)
+                    nameLabel.textContent = 'Looking up name...';
+
+                    fetch(`/lookup/?account_number=${accountNumber}`)
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            if (data.success && data.name) {
+                                nameLabel.textContent = data.name;
+                            } else {
+                                nameLabel.textContent = 'No matching account found';
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error fetching account name:', error);
+                            nameLabel.textContent = 'Error looking up account';
+                        });
+                } else {
+                    nameLabel.textContent = '';
+                }
+            });
+        });
+
+
+        let sendFormData = null;
+
+        function openModal() {
+            const form = document.getElementById('sendForm');
+            sendFormData = new FormData(form);
+            
+
+            fetch("{% url 'core:send-two' %}", {
+                method: "POST",
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                },
+                body: sendFormData
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('transactionModal').style.display = 'flex';
+                } else {
+                    alert(data.error || 'Failed to send OTP.');
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                alert('Something went wrong. Try again.');
+            });
+        }
+
+
+        function confirmTransaction() {
+            const otp = document.getElementById('transactionCode').value;
+            if (otp.length !== 6) {
+                alert('OTP must be 6 digits.');
+                return;
+            }
+
+            sendFormData.append('otp', otp);
+
+            fetch("{% url 'core:send-two' %}", {
+                method: "POST",
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                },
+                body: sendFormData
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Transaction successful!');
+                    window.location.href = '/dashboard/';
+                } else {
+                    alert(data.error || 'Invalid OTP or something went wrong.');
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                alert('Something went wrong. Try again.');
+            });
+        }
+    </script>
+    <!-- <script src="{% static 'core/js/send-two.js' %}"></script> -->
+
+</body>
+</html>

@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Login | GCash</title>
+    <link rel="stylesheet" href="{% static 'core/css/signin.css' %}" />
+  </head>
+  <body>
+
+    <div class="container">
+
+      <div class="gcash-img">
+        <img src="{% static 'core/asset/gcash_logo.png' %}" alt="gcash_logo">
+      </div>  
+
+      <section class="form-container">
+
+        <div class="signin-text">Sign In</div>
+
+        <form action="/accounts/login/" class="form" method="post">
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger" style="text-align: center; width: 100%; color: red;">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+            
+            <!-- Loop through each field in the form -->
+            {% for field in form %}
+                <div style="text-align: center; width: 100%; color: red;">
+                    {% if field.errors %}
+                        <div class="alert alert-danger">
+                            {{ field.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+          <div class="input-box">
+            <label for="id_login">Email</label>
+            <input type="email" placeholder="anonymous@gmail.com " autocomplete="email" maxlength="320" id="id_login" name="login" required />
+          </div>
+          
+          <div class="input-box">
+            <label>Password</label>
+            <input type="password" name="password" autocomplete="current-password" aria-describedby="id_password_helptext" id="id_password" placeholder="Enter your password" required />
+            <span class="helptext" id="id_password_helptext"></span>
+          </div>
+
+          <div class="check-box">
+            <input type="checkbox" name="remember" id="remember">
+            <div class="remember-me">Remember me</div>
+          </div>
+          
+          <button type="submit">Sign In</button>
+
+          <div class="forgot-password"><a href="/accounts/password/reset/">Forgot Password?</a></div>
+
+          <div class="signin-click">Don't have an account yet? <a  href="/accounts/signup/"> Sign Up.</a></div>
+        
+        </form>
+
+      </section>
+
+    </div>
+
+  </body>
+</html>
