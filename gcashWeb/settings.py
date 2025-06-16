@@ -8,7 +8,7 @@ SECRET_KEY = 'django-insecure-)%%6jpw3k2^+mng=4jh(fke=p)hbkh$2-^3&w+5j%3#n%7c*at
 
 DEBUG = True
 
-ALLOWED_HOSTS = []#'gcash.pythonanywhere.com', 'localhost', 'localhost:8000', '0ZXu3xT2!9xD;e']
+ALLOWED_HOSTS = ['gcash.pythonanywhere.com']
 
 SITE_ID = 1
 
@@ -20,7 +20,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
+
     # my apps
     'core',
 
@@ -116,15 +116,10 @@ AUTHENTICATION_BACKENDS = [
 
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/dashboard/'
+ACCOUNT_LOGIN_METHODS = {'email'}
 ACCOUNT_SIGNUP_REDIRECT_URL = '/accounts/login/'
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 ACCOUNT_SESSION_REMEMBER = 'none'
 ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = False
 ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = '/dashboard/'
-ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/dashboard/'
-
-ACCOUNT_LOGIN_METHODS = {"email"}
-
-ACCOUNT_SESSION_REMEMBER = None
-
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+ACCOUNT_SIGNUP_FIELDS =  ['username*', 'email', 'password1*', 'password2*']
