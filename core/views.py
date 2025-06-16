@@ -145,10 +145,64 @@ def transfer(request):
     return render(request, 'core/transfer-one.html')
 
 
+import json
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_http_methods
+
 @login_required
 @csrf_exempt
+@require_http_methods(["GET", "POST"])
 def transferTwo(request):
-    return render(request, 'core/transfer-two.html')
+    user = request.user
+
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            nickname = data.get('nickname', '').strip()
+            account_name = data.get('account_name', '').strip()
+            account_number = data.get('account_number', '').strip()
+            note = data.get('note', '').strip()
+
+            if not account_number or not account_name:
+                return JsonResponse({'success': False, 'error': 'Account name and number are required.'})
+
+            # Validate account number length (assuming 12 digits)
+            if len(account_number) != 12 or not account_number.isdigit():
+                return JsonResponse({'success': False, 'error': 'Account number must be 12 digits.'})
+
+            # Check if recipient profile exists
+            try:
+                recipient_profile = Profile.objects.get(account_number=account_number)
+            except Profile.DoesNotExist:
+                return JsonResponse({'success': False, 'error': 'Recipient account not found.'})
+
+            # Create transaction
+            transaction = Transaction.objects.create(
+                user=user,
+                transaction_type='Transfer',
+                amount=Decimal('0.00')  # Amount to be updated later or handled differently
+            )
+
+            # Generate verification code
+            code = random.randint(100000, 999999)
+            VerificationCode.objects.create(
+                transaction=transaction,
+                code=code,
+                expired=False
+            )
+
+            # Store transaction id and code in session for later verification if needed
+            request.session['transaction_id'] = transaction.id
+            request.session['verification_code'] = str(code)
+
+            return JsonResponse({'success': True, 'message': 'Verification code created. Please enter the code to confirm.'})
+
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)})
+
+    else:
+        profile = Profile.objects.get(user=user)
+        return render(request, 'core/transfer-two.html', {'balance': profile.balance})
 
 
 @login_required

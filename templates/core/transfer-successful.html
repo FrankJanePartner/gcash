@@ -1,0 +1,76 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- <link rel="stylesheet" href="{% static 'core/css/transfer-successful.css' %}"> -->
+    <link rel="stylesheet" href="{% static 'core/css/transfer-successful.css' %}">
+</head>
+
+<body>
+
+    <div class="transfer-successful-container">
+
+        <div class="send-nav">
+
+            <div class="arrow">
+                <a href="#">
+                    <img src="{% static 'core/asset/arrow.png' %}">
+                </a>
+            </div>
+
+            <div class="send">Express Send</div>
+
+            <div class="caution">
+                <!-- <img src="{% static 'core/asset/Frame.png' %}"> -->
+            </div>
+
+        </div>
+
+        <div class="card-container">
+
+            <div class="card">
+                <div class="checkmark-circle">
+                    <span class="checkmark">✔</span>
+                </div>
+
+                <div class="title">J**|O*</div>
+
+                <div class="subtitle-container">
+                    <div class="subtitle">2119 3610 5658 </div>
+                </div>
+
+                <div class="via">Sent via GCash</div>
+
+                <hr class="first-hr">
+                
+                <div class="details">
+                    <p>
+                        <span class="label">Amount</span> <span class="highlight">300.00</span>
+                    </p>
+
+                    <hr class="second-hr">
+
+                    <p>
+                        <span class="label">Total Amount Sent</span> 
+                        <span class="amount-total">₱945,880.<span class="amount-total-zero">00</span> </span>
+                    </p>
+
+                    <p class="Payment-management"><span class="label">Sender</span> Payment Management</p>
+                    <p class="all-ref"><span class="label ref">Ref No. <span style="color: #292929;">239560808847w</span></span> <span style="color: #292929;" >Jan 31, 2024 9:42 PM</span></p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="button-container">
+            <a href="#" class="btn">Return to Home</a>
+        </div>
+
+    </div>
+</body>
+</html>

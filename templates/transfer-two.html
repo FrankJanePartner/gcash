@@ -1,0 +1,85 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'core/css/transfer-two.css' %}">
+</head>
+<body>
+    
+    <div class="send-container">
+        <div class="send-nav">
+            <div class="arrow">
+                <a href="#">
+                    <img src="{% static 'core/asset/arrow.png' %}">
+                </a>
+            </div>
+
+            <div class="send">Send</div>
+
+            <div class="caution">
+                <img src="{% static 'core/asset/Frame.png' %}">
+            </div>
+        </div>
+    </div>
+
+    <div class="gcash-banner">
+        <img src="{% static 'core/asset/gcash_banner.png' %}">
+    </div>
+
+    <div class="content">
+
+      <div class="select-bank">
+        <label for="bankSelect">Select Bank</label>
+         <select id="bankSelect" name="bank">
+            <option value="">-- Select a Bank --</option>
+            <option value="bdo">BDO Unibank, Inc.</option>
+            <option value="bpi">Bank of the Philippine Islands (BPI)</option>
+            <option value="metrobank">Metropolitan Bank & Trust Co. (Metrobank)</option>
+            <option value="landbank">Land Bank of the Philippines</option>
+            <option value="pnb">Philippine National Bank (PNB)</option>
+            <option value="securitybank">Security Bank Corporation</option>
+            <option value="chinabank">China Banking Corporation</option>
+            <option value="rcbc">Rizal Commercial Banking Corporation (RCBC)</option>
+            <option value="unionbank">Union Bank of the Philippines</option>
+            <option value="eastwest">EastWest Bank</option>
+            <option value="dbp">Development Bank of the Philippines (DBP)</option>
+           <option value="ubp">UCPB (Now merged with LANDBANK)</option>
+        </select>
+      </div>
+
+       <div class="form-group">
+         <label for="amount">Amount</label>
+         <input id="amount" type="text" placeholder="₱ 9,455,105.00" name='amount' >
+      </div>
+
+      <div class="form-group">
+         <label for="username">Username</label>
+         <input id="username" type="text" placeholder="Natasha" name="username" >
+      </div>
+
+      <div class="form-group">
+         <label for="account-name">Account name</label>
+         <input id="amount" type="text" placeholder="Max of 50 characters" name="account_name">
+      </div>
+
+      <div class="form-group">
+         <label for="account-number">Account number</label>
+         <input id="account-number" type="text" placeholder="12 Digits" name="account_number">
+      </div>
+
+      <div class="form-group">
+         <label for="note">Send receipts to (optional)</label>
+         <input class="note-input" id="note" type="text" placeholder="johnkennedy@gmail.com" name="email">
+      </div>
+
+      <button class="send-btn">Send Money</button>
+
+    </div>
+   
+    
+    <script src="{% static 'core/js/transfer-two.js' %}"></script>
+</body>
+</html>
