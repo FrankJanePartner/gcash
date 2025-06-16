@@ -54,7 +54,7 @@ def sendTwo(request):
 
             try:
                 amount = Decimal(amount_str)
-                transaction = Transaction.objects.create(
+                transaction: Transaction = Transaction.objects.create(
                     user=user,
                     transaction_type='Send',
                     amount=amount
@@ -67,7 +67,6 @@ def sendTwo(request):
             except Exception as e:
                 return JsonResponse({'success': False, 'error': str(e)})
 
-            # type: Transaction
             request.session['otp_code'] = str(code)
             request.session['transaction_id'] = transaction.id
 

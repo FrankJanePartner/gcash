@@ -16,6 +16,7 @@ class Profile(models.Model):
         return f'{self.user} Profile'
     
 class Transaction(models.Model):
+    id = models.AutoField(primary_key=True)
     TYPE = (
         ('Send', 'Send'),
         ('Load', 'Load'),
