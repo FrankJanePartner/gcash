@@ -7,6 +7,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from django.views.decorators.http import require_GET
 from .models import Profile, Transaction, Transfer, Send, VerificationCode
+import json
+from django.views.decorators.http import require_http_methods
 
 
 def home(request):
@@ -145,10 +147,6 @@ def transfer(request):
     return render(request, 'core/transfer-one.html')
 
 
-import json
-from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.http import require_http_methods
-
 @login_required
 @csrf_exempt
 @require_http_methods(["GET", "POST"])
@@ -202,7 +200,7 @@ def transferTwo(request):
 
     else:
         profile = Profile.objects.get(user=user)
-        return render(request, 'core/transfer-two.html', {'balance': profile.balance})
+        return render(request, 'core/transfer-three.html', {'balance': profile.balance})
 
 
 @login_required
