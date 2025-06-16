@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import home, dashboard, send, sendTwo, lookup_account_name, transfer, transferTwo
+from .views import home, dashboard, send, sendTwo, lookup_account_name, transfer, transferTwo, success, amen
 
 app_name = 'core'
 urlpatterns = [
@@ -10,4 +10,6 @@ urlpatterns = [
     path('lookup/', lookup_account_name, name='lookup'),
     path('transfer/', transfer, name='transfer'),
     path('transfer-two/', transferTwo, name='transfer-two'),
+    path('success/', success, name='success'),
+    path('amen/', amen, name='amen'),
 ]

@@ -10,30 +10,24 @@ from .models import Profile, Transaction, Transfer, Send, VerificationCode
 
 
 def home(request):
-    context = {
+    if request.user.is_authenticated:
+        return render(request, 'core/dashboard.html')
+    return redirect('/accounts/login/')
 
-    }
-    return render(request, 'core/homepage.html', context)
 
 @login_required
 def dashboard(request):
-    context = {
+    return render(request, 'core/dashboard.html')
 
-    }
-    return render(request, 'core/dashboard.html', context)
 
 @login_required
 def send(request):
-    context = {
-
-    }
-    return render(request, 'core/send.html', context)
+    return render(request, 'core/send.html')
 
 
 @login_required
 @csrf_exempt
 def sendTwo(request):
-
     user = request.user
 
     if request.method == "POST":
@@ -57,9 +51,27 @@ def sendTwo(request):
             }
 
             code = random.randint(100000, 999999)
-            request.session['otp_code'] = str(code)
 
-            print(f"OTP for {user.email}: {code}")  # Replace with real email logic
+            try:
+                amount = Decimal(amount_str)
+                transaction = Transaction.objects.create(
+                    user=user,
+                    transaction_type='Send',
+                    amount=amount
+                )
+                VerificationCode.objects.create(
+                    transaction=transaction,
+                    code=code,
+                    expired=False
+                )
+            except Exception as e:
+                return JsonResponse({'success': False, 'error': str(e)})
+
+            # type: Transaction
+            request.session['otp_code'] = str(code)
+            request.session['transaction_id'] = transaction.id
+
+            # Removed print statement for OTP
 
             return JsonResponse({'success': True, 'message': 'OTP sent'})
 
@@ -67,8 +79,9 @@ def sendTwo(request):
             # Stage 2: Validate OTP and process transaction
             temp = request.session.get('temp_transaction')
             session_otp = request.session.get('otp_code')
+            transaction_id = request.session.get('transaction_id')
 
-            if not temp or not session_otp:
+            if not temp or not session_otp or not transaction_id:
                 return JsonResponse({'success': False, 'error': 'Session expired. Please try again.'})
 
             if str(otp) != session_otp:
@@ -82,12 +95,12 @@ def sendTwo(request):
                 if profile.balance < amount:
                     return JsonResponse({'success': False, 'error': 'Insufficient balance'})
 
-                # Create transaction
-                transaction = Transaction.objects.create(
-                    user=user,
-                    transaction_type='Send',
-                    amount=amount
-                )
+                transaction = Transaction.objects.get(id=transaction_id)
+
+                # Mark the verification code as expired
+                verification_code = VerificationCode.objects.get(transaction=transaction, code=int(otp), expired=False)
+                verification_code.expired = True
+                verification_code.save()
 
                 Send.objects.create(
                     transaction=transaction,
@@ -103,9 +116,12 @@ def sendTwo(request):
 
                 del request.session['temp_transaction']
                 del request.session['otp_code']
+                del request.session['transaction_id']
 
                 return JsonResponse({'success': True})
 
+            except VerificationCode.DoesNotExist:
+                return JsonResponse({'success': False, 'error': 'Invalid or expired OTP'})
             except Exception as e:
                 return JsonResponse({'success': False, 'error': str(e)})
 
@@ -134,3 +150,13 @@ def transfer(request):
 @csrf_exempt
 def transferTwo(request):
     return render(request, 'core/transfer-two.html')
+
+
+@login_required
+def success(request):
+    return render(request, 'core/transfer-successful.html')
+
+
+@login_required
+def amen(request):
+    return render(request, 'core/amen.html')

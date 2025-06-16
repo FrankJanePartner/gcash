@@ -13,6 +13,25 @@
         {% block head_title %}
         {% endblock head_title %} | GCash
     </title>
+
+    <style>
+        p.check-box{
+            width: 100%;
+            flex-direction; row-reverse;
+        }
+
+        p.check-box input{
+            width 1rem !important;
+            height: 1rem !important;
+            padding: 3px !important;
+            margin: 0 1rem !important;
+            border: 2px solid black;
+        }
+
+        p.check-box label{
+            width: fit-content;
+        }
+    </style>
     
     {% block extra_head %}
     {% endblock extra_head %}
@@ -26,7 +45,7 @@
         </div>
         
         <section class="form-container">
-            
+            {% csrf_token %}
 
             {% block body %}
                 {% block content %}
@@ -35,5 +54,20 @@
             {% block extra_body %}
             {% endblock extra_body %}
         </section>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                // Get all <p> tags on the page
+                const paragraphs = document.querySelectorAll("p");
+
+                paragraphs.forEach(function (p) {
+                    // Check if the <p> contains an input[type=checkbox] or input[type=radio]
+                    const checkboxOrRadio = p.querySelector("input[type='checkbox'], input[type='radio']");
+                    if (checkboxOrRadio) {
+                        // Add a class to the <p> tag
+                        p.classList.add("check-box");
+                    }
+                });
+            });
+        </script>
     </body>
 </html>

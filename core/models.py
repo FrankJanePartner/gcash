@@ -13,7 +13,7 @@ class Profile(models.Model):
 
 
     def __st__(self):
-        return f'{self.user.first_name} {self.user.last_name} Profile'
+        return f'{self.user} Profile'
     
 class Transaction(models.Model):
     TYPE = (
@@ -32,7 +32,7 @@ class Transaction(models.Model):
 
 
     def __st__(self):
-        return f'{self.transaction_type} of {self.amount} by {self.user.first_name} {self.user.last_name}'
+        return f'{self.transaction_type} of {self.amount} by {self.user}'
     
 class Transfer(models.Model):
     transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE)
@@ -43,7 +43,7 @@ class Transfer(models.Model):
     date_time = models.DateTimeField(auto_now_add=True)
 
     def __st__(self):        
-        return f'transfer by {self.transaction.user.first_name} {self.transaction.user.last_name}'
+        return f'transfer by {self.transaction.user}'
     
 
 class Send(models.Model):
@@ -54,7 +54,7 @@ class Send(models.Model):
 
 
     def __st__(self):
-        return f'Fund sent by {self.transaction.user.first_name} {self.transaction.user.last_name} to {self.user.first_name} {self.user.last_name}'
+        return f'Fund sent by {self.transaction.user} to {self.reciever}'
     
 
 
@@ -70,7 +70,7 @@ class VerificationCode(models.Model):
         ordering = ['-created_at']
 
     def __st__(self):
-        return f'Verification code of {self.transaction.transaction_type} {self.transaction.id} by {self.transaction.user.first_name} {self.transaction.user.last_name}'
+        return f'Verification code of {self.transaction.transaction_type} by {self.transaction.user}'
 
     def check_validity(self, expiry_minutes=10):
         """

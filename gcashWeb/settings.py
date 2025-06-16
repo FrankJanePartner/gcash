@@ -8,7 +8,7 @@ SECRET_KEY = 'django-insecure-)%%6jpw3k2^+mng=4jh(fke=p)hbkh$2-^3&w+5j%3#n%7c*at
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['gcash.pythonanywhere.com']
+ALLOWED_HOSTS = []#'gcash.pythonanywhere.com', 'localhost', 'localhost:8000', '0ZXu3xT2!9xD;e']
 
 SITE_ID = 1
 
@@ -110,16 +110,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 AUTHENTICATION_BACKENDS = [
-    # Needed to login by username in Django admin, regardless of `allauth`
-    'django.contrib.auth.backends.ModelBackend',
-
     # `allauth` specific authentication methods, such as login by e-mail
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
-
-ACCOUNT_FORMS = {
-    'signup': 'core.forms.CustomSignupForm',    
-}
 
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/dashboard/'
@@ -128,18 +121,10 @@ ACCOUNT_EMAIL_VERIFICATION = 'none'
 ACCOUNT_SESSION_REMEMBER = 'none'
 ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = False
 ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = '/dashboard/'
+ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/dashboard/'
 
-ACCOUNT_LOGIN_METHODS = {'email'}
-ACCOUNT_SIGNUP_FIELDS = ['username*', 'email*', 'password1*', 'password2*']
+ACCOUNT_LOGIN_METHODS = {"email"}
 
+ACCOUNT_SESSION_REMEMBER = None
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_PORT = 587 # Use 465 if using SSL
-# EMAIL_USE_TLS = True  # Change to False if using SSL (port 465)
-# EMAIL_USE_SSL = False
-# EMAIL_HOST_USER = env('EMAIL_HOST_USER')
-# EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
-# DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL')
