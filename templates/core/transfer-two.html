@@ -1,0 +1,76 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transfer | GCash</title>
+    <link rel="stylesheet" href="{% static 'core/css/transfer-two.css' %}">
+</head>
+<body>
+    
+    <div class="send-container">
+        <div class="send-nav">
+            <div class="arrow">
+                <a href="/transfer/">
+                    <img src="{% static 'core/asset/arrow.png' %}">
+                </a>
+            </div>
+
+            <div class="send">Send</div>
+
+            <div class="caution">
+                <img src="{% static 'core/asset/Frame.png' %}">
+            </div>
+        </div>
+    </div>
+
+    <div class="gcash-banner">
+        <img src="{% static 'core/asset/gcash_banner.png' %}">
+    </div>
+
+    <div class="content">
+
+    <form method="get" action="{% url 'core:transfer-three' %}">
+      <div class="select-bank">
+        <label for="bankSelect">Select Bank</label>
+         <select id="bankSelect" name="bank_code" required>
+            <option value="">-- Select a Bank --</option>
+            {% for bank in universal_banks %}
+              <option value="{{ bank.bank_code }}">{{ bank.bank_name }}</option>
+            {% endfor %}
+        </select>
+      </div>
+      <div class="form-group">
+         <label for="amount">Amount</label>
+         <input id="amount" name="amount" type="text" placeholder="₱ 9,455,105.00" required>
+      </div>
+
+      <div class="form-group">
+         <label for="username">Username</label>
+         <input id="username" name="username" type="text" placeholder="Natasha" required>
+      </div>
+
+      <div class="form-group">
+         <label for="account-name">Account name</label>
+         <input id="account-name" name="account_name" type="text" placeholder="Max of 50 characters" required>
+      </div>
+
+      <div class="form-group">
+         <label for="account-number">Account number</label>
+         <input id="account-number" name="account_number" type="text" placeholder="12 Digits" required>
+      </div>
+
+      <div class="form-group">
+         <label for="note">Send receipts to (optional)</label>
+         <input class="note-input" id="note" name="note" type="text" placeholder="johnkennedy@gmail.com">
+      </div>
+
+      <button class="send-btn" type="submit">Send Money</button>
+    </form>
+
+    </div>
+   
+    <script src="{% static 'core/transfer-two.js' %}"></script>
+</body>
+</html>

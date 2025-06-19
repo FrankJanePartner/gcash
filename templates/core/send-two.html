@@ -125,7 +125,12 @@
         function openModal() {
             const form = document.getElementById('sendForm');
             sendFormData = new FormData(form);
-            
+
+            // Disable send button and show loading text
+            const sendBtn = document.getElementById('sendBtn');
+            sendBtn.disabled = true;
+            const originalText = sendBtn.textContent;
+            sendBtn.textContent = 'Sending...';
 
             fetch("{% url 'core:send-two' %}", {
                 method: "POST",
@@ -145,6 +150,11 @@
             .catch(err => {
                 console.error(err);
                 alert('Something went wrong. Try again.');
+            })
+            .finally(() => {
+                // Re-enable send button and restore text
+                sendBtn.disabled = false;
+                sendBtn.textContent = originalText;
             });
         }
 

@@ -26,9 +26,15 @@ class Transaction(models.Model):
         ('Ginvest', 'Ginvest'),
         ('Borrows', 'Borrows'),
     )
+    STATUS_CHOICES = (
+        ('pending', 'Pending'),
+        ('successful', 'Successful'),
+        ('failed', 'Failed'),
+    )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     transaction_type = models.CharField(max_length=12, choices=TYPE)
     amount = models.DecimalField(max_digits=100, decimal_places=2)
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
     date_time = models.DateTimeField(auto_now_add=True)
 
 

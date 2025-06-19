@@ -49,9 +49,7 @@
       "bank-name": "Development Bank of the Philippines",
       "bank-logo": "/static/bank/logo/DBP.jpeg",
       "bank-code": "DBP"
-    }
-  ],
-  "commercial_banks": [
+    },
     {
       "bank-name": "EastWest Bank",
       "bank-logo": "/static/bank/logo/EastWest.png",
@@ -96,9 +94,7 @@
       "bank-name": "Citibank Philippines",
       "bank-logo": "/static/bank/logo/Citibank.png",
       "bank-code": "CITI"
-    }
-  ],
-  "rural_and_cooperative_banks": [
+    },
     {
       "bank-name": "Cantilan Bank",
       "bank-logo": "/static/bank/logo/Cantilan.png",

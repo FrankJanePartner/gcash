@@ -9,6 +9,8 @@ from django.views.decorators.http import require_GET
 from .models import Profile, Transaction, Transfer, Send, VerificationCode
 import json
 from django.views.decorators.http import require_http_methods
+import os
+from django.conf import settings
 
 
 def home(request):
@@ -31,6 +33,7 @@ def send(request):
 @csrf_exempt
 def sendTwo(request):
     user = request.user
+    userProfile = Profile.objects.get(user=user)
 
     if request.method == "POST":
         otp = request.POST.get('otp')
@@ -59,7 +62,8 @@ def sendTwo(request):
                 transaction: Transaction = Transaction.objects.create(
                     user=user,
                     transaction_type='Send',
-                    amount=amount
+                    amount=amount,
+                    status='pending'
                 )
                 VerificationCode.objects.create(
                     transaction=transaction,
@@ -71,8 +75,6 @@ def sendTwo(request):
 
             request.session['otp_code'] = str(code)
             request.session['transaction_id'] = transaction.id
-
-            # Removed print statement for OTP
 
             return JsonResponse({'success': True, 'message': 'OTP sent'})
 
@@ -86,6 +88,13 @@ def sendTwo(request):
                 return JsonResponse({'success': False, 'error': 'Session expired. Please try again.'})
 
             if str(otp) != session_otp:
+                # Update transaction status to failed due to invalid OTP
+                try:
+                    transaction = Transaction.objects.get(id=transaction_id)
+                    transaction.status = 'failed'
+                    transaction.save(update_fields=['status'])
+                except:
+                    pass
                 return JsonResponse({'success': False, 'error': 'Invalid OTP'})
 
             try:
@@ -100,6 +109,11 @@ def sendTwo(request):
 
                 # Mark the verification code as expired
                 verification_code = VerificationCode.objects.get(transaction=transaction, code=int(otp), expired=False)
+                if not verification_code.check_validity():
+                    transaction.status = 'failed'
+                    transaction.save(update_fields=['status'])
+                    return JsonResponse({'success': False, 'error': 'OTP expired'})
+
                 verification_code.expired = True
                 verification_code.save()
 
@@ -115,6 +129,12 @@ def sendTwo(request):
                 recipient_profile.balance += amount
                 recipient_profile.save()
 
+                transaction.status = 'successful'
+                transaction.save(update_fields=['status'])
+
+                profile.balance -= amount
+                profile.save()
+
                 del request.session['temp_transaction']
                 del request.session['otp_code']
                 del request.session['transaction_id']
@@ -122,6 +142,9 @@ def sendTwo(request):
                 return JsonResponse({'success': True})
 
             except VerificationCode.DoesNotExist:
+                transaction = Transaction.objects.get(id=transaction_id)
+                transaction.status = 'failed'
+                transaction.save(update_fields=['status'])
                 return JsonResponse({'success': False, 'error': 'Invalid or expired OTP'})
             except Exception as e:
                 return JsonResponse({'success': False, 'error': str(e)})
@@ -146,61 +169,159 @@ def lookup_account_name(request):
 def transfer(request):
     return render(request, 'core/transfer-one.html')
 
+@login_required
+def transferTwo(request):
+    import os
+    import json
+    from django.conf import settings
+
+    # Load banks.json
+    banks_path = os.path.join(settings.BASE_DIR, 'static', 'data', 'banks.json')
+    with open(banks_path, 'r') as f:
+        banks_data = json.load(f)
+
+    # Convert keys from dash-case to underscore_case for template compatibility
+    universal_banks_raw = banks_data.get('universal_banks', [])
+    universal_banks = []
+    for bank in universal_banks_raw:
+        universal_banks.append({
+            'bank_name': bank.get('bank-name', ''),
+            'bank_logo': bank.get('bank-logo', ''),
+            'bank_code': bank.get('bank-code', ''),
+        })
+
+    return render(request, 'core/transfer-two.html', {'universal_banks': universal_banks})
+
 
 @login_required
 @csrf_exempt
 @require_http_methods(["GET", "POST"])
-def transferTwo(request):
+def transferThree(request):
+
     user = request.user
+    profile = Profile.objects.get(user=user)
+
+    # Load banks.json for bank info lookup
+    banks_path = os.path.join(settings.BASE_DIR, 'static', 'data', 'banks.json')
+    with open(banks_path, 'r') as f:
+        banks_data = json.load(f)
+    universal_banks = banks_data.get('universal_banks', [])
+
+    selected_bank_code = None
+    selected_bank = None
 
     if request.method == "POST":
-        try:
-            data = json.loads(request.body)
-            nickname = data.get('nickname', '').strip()
-            account_name = data.get('account_name', '').strip()
-            account_number = data.get('account_number', '').strip()
-            note = data.get('note', '').strip()
+        otp = request.POST.get('otp', None)
+        amount = request.POST.get('amount', '').strip()
 
-            if not account_number or not account_name:
-                return JsonResponse({'success': False, 'error': 'Account name and number are required.'})
+        if not otp:
+            # Stage 1: Create transaction and generate OTP
+            nickname = request.POST.get('nickname', '').strip()
+            account_name = request.POST.get('account_name', '').strip()
+            account_number = request.POST.get('account_number', '').strip()
+            note = request.POST.get('note', '').strip()
+            selected_bank_code = request.POST.get('bank_code', '').strip()
+
 
             # Validate account number length (assuming 12 digits)
             if len(account_number) != 12 or not account_number.isdigit():
                 return JsonResponse({'success': False, 'error': 'Account number must be 12 digits.'})
-
-            # Check if recipient profile exists
             try:
-                recipient_profile = Profile.objects.get(account_number=account_number)
-            except Profile.DoesNotExist:
-                return JsonResponse({'success': False, 'error': 'Recipient account not found.'})
+                transaction = Transaction.objects.create(
+                    user=user,
+                    transaction_type='Transfer',
+                    amount=Decimal(amount),  # Amount to be updated later or handled differently
+                    status='pending'
+                )
 
-            # Create transaction
-            transaction = Transaction.objects.create(
-                user=user,
-                transaction_type='Transfer',
-                amount=Decimal('0.00')  # Amount to be updated later or handled differently
-            )
+                code = random.randint(100000, 999999)
+                VerificationCode.objects.create(
+                    transaction=transaction,
+                    code=code,
+                    expired=False
+                )
 
-            # Generate verification code
-            code = random.randint(100000, 999999)
-            VerificationCode.objects.create(
-                transaction=transaction,
-                code=code,
-                expired=False
-            )
+                request.session['transaction_id'] = transaction.id
+                request.session['verification_code'] = str(code)
 
-            # Store transaction id and code in session for later verification if needed
-            request.session['transaction_id'] = transaction.id
-            request.session['verification_code'] = str(code)
+                return JsonResponse({'success': True, 'message': 'Verification code created. Please enter the code to confirm.'})
+            except Exception as e:
+                return JsonResponse({'success': False, 'error': str(e)})
 
-            return JsonResponse({'success': True, 'message': 'Verification code created. Please enter the code to confirm.'})
+        else:
+            # Stage 2: Validate OTP and update transaction status
+            transaction_id = request.session.get('transaction_id')
+            session_otp = request.session.get('verification_code')
 
-        except Exception as e:
-            return JsonResponse({'success': False, 'error': str(e)})
+            if not transaction_id or not session_otp:
+                return JsonResponse({'success': False, 'error': 'Session expired. Please try again.'})
+
+            if str(otp) != session_otp:
+                try:
+                    transaction = Transaction.objects.get(id=transaction_id)
+                    transaction.status = 'failed'
+                    transaction.save(update_fields=['status'])
+                except:
+                    pass
+                return JsonResponse({'success': False, 'error': 'Invalid OTP'})
+
+            try:
+                transaction = Transaction.objects.get(id=transaction_id)
+                verification_code = VerificationCode.objects.get(transaction=transaction, code=int(otp), expired=False)
+                if not verification_code.check_validity():
+                    transaction.status = 'failed'
+                    transaction.save(update_fields=['status'])
+                    return JsonResponse({'success': False, 'error': 'OTP expired'})
+
+                verification_code.expired = True
+                verification_code.save()
+
+                transaction.status = 'successful'
+                transaction.save(update_fields=['status'])
+
+                profile.balance -= amount
+                profile.save()
+
+                return JsonResponse({'success': True})
+            except VerificationCode.DoesNotExist:
+                transaction = Transaction.objects.get(id=transaction_id)
+                transaction.status = 'failed'
+                transaction.save(update_fields=['status'])
+                return JsonResponse({'success': False, 'error': 'Invalid or expired OTP'})
+            except Exception as e:
+                return JsonResponse({'success': False, 'error': str(e)})
 
     else:
+        selected_bank_code = request.GET.get('bank_code', '').strip()
+        amount = request.GET.get('amount', '').strip()
+        username = request.GET.get('username', '').strip()
+        account_name = request.GET.get('account_name', '').strip()
+        account_number = request.GET.get('account_number', '').strip()
+        note = request.GET.get('note', '').strip()
+
+        selected_bank = None
+        if selected_bank_code:
+            for bank in universal_banks:
+                # keys in universal_banks are dash-case, convert to underscore for comparison
+                if bank.get('bank-code') == selected_bank_code:
+                    selected_bank = {
+                        'bank_name': bank.get('bank-name', ''),
+                        'bank_logo': bank.get('bank-logo', ''),
+                        'bank_code': bank.get('bank-code', ''),
+                    }
+                    break
+
         profile = Profile.objects.get(user=user)
-        return render(request, 'core/transfer-three.html', {'balance': profile.balance})
+        context = {
+            'balance': profile.balance,
+            'selected_bank': selected_bank,
+            'amount': amount,
+            'username': username,
+            'account_name': account_name,
+            'account_number': account_number,
+            'note': note,
+        }
+        return render(request, 'core/transfer-three.html', context)
 
 
 @login_required

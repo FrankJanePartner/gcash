@@ -12,7 +12,7 @@
     <div class="send-container">
         <div class="send-nav">
             <div class="arrow">
-                <a href="#">
+                <a href="/transfer-two/">
                     <img src="{% static 'core/asset/arrow.png' %}">
                 </a>
             </div>
@@ -32,36 +32,41 @@
     <div class="content">
 
       <div class="choose-bank">
-        <img src="{% static 'core/asset/b-eight.png' %}">
-        <span>BDO Unibank, Inc.</span>
+        {% if selected_bank %}
+          <img src="{{ selected_bank.bank_logo }}" alt="{{ selected_bank.bank_name }}">
+          <span>{{ selected_bank.bank_name }}</span>
+        {% else %}
+          <img src="{% static 'core/asset/b-eight.png' %}" alt="Default Bank">
+          <span>BDO Unibank, Inc.</span>
+        {% endif %}
       </div>
 
        <div class="form-group">
          <label for="amount">Amount</label>
-         <input id="amount" type="text" placeholder="₱ 9,455,105.00" >
+         <input id="amount" name="amount" type="text" value="{{ amount }}" readonly>
       </div>
 
       <div class="form-group">
          <label for="username">Username</label>
-         <input id="username" type="text" placeholder="Natasha" >
+         <input id="username" name="username" type="text" value="{{ username }}" readonly>
       </div>
 
       <div class="form-group">
          <label for="account-name">Account name</label>
-         <input id="amount" type="text" placeholder="Max of 50 characters">
+         <input id="account-name" name="account_name" type="text" value="{{ account_name }}" readonly>
       </div>
 
       <div class="form-group">
          <label for="account-number">Account number</label>
-         <input id="account-number" type="text" placeholder="12 Digits">
+         <input id="account-number" name="account_number" type="text" value="{{ account_number }}" readonly>
       </div>
 
       <div class="form-group">
          <label for="note">Send receipts to (optional)</label>
-         <input class="note-input" id="note" type="text" placeholder="johnkennedy@gmail.com">
+         <input class="note-input" id="note" name="note" type="text" value="{{ note }}" readonly>
       </div>
 
-      <button class="send-btn" onclick="openModal()">Send Money</button>
+      <button class="send-btn" id="sendBtn" onclick="openModal()">Send Money</button>
 
     </div>
 
@@ -77,6 +82,86 @@
     <!-- Modal End-->
    
     
-    <script src="{% static 'core/js/transfer-three.js' %}"></script>
+    <script>
+        let sendFormData = null;
+
+        function openModal() {
+            // Collect form data
+            const amount = document.getElementById('amount').value;
+            const username = document.getElementById('username').value;
+            const account_name = document.getElementById('account-name').value;
+            const account_number = document.getElementById('account-number').value;
+            const note = document.getElementById('note').value;
+
+            sendFormData = new FormData();
+            sendFormData.append('amount', amount);
+            sendFormData.append('username', username);
+            sendFormData.append('account_name', account_name);
+            sendFormData.append('account_number', account_number);
+            sendFormData.append('note', note);
+
+            // Disable send button and show loading text
+            const sendBtn = document.getElementById('sendBtn');
+            sendBtn.disabled = true;
+            const originalText = sendBtn.textContent;
+            sendBtn.textContent = 'Sending...';
+
+            fetch("{% url 'core:transfer-three' %}", {
+                method: "POST",
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                },
+                body: sendFormData
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('transactionModal').style.display = 'flex';
+                } else {
+                    alert(data.error || 'Failed to send OTP.');
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                alert('Something went wrong. Try again.');
+            })
+            .finally(() => {
+                // Re-enable send button and restore text
+                sendBtn.disabled = false;
+                sendBtn.textContent = originalText;
+            });
+        }
+
+        function confirmTransaction() {
+            const otp = document.getElementById('transactionCode').value;
+            if (otp.length !== 6) {
+                alert('OTP must be 6 digits.');
+                return;
+            }
+
+            sendFormData.append('otp', otp);
+
+            fetch("{% url 'core:transfer-three' %}", {
+                method: "POST",
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                },
+                body: sendFormData
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Transaction successful!');
+                    window.location.href = '/success/';
+                } else {
+                    alert(data.error || 'Invalid OTP or something went wrong.');
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                alert('Something went wrong. Try again.');
+            });
+        }
+    </script>
 </body>
 </html>

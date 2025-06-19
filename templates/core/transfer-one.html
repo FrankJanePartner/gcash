@@ -6,12 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Transfer | GCash</title>
     <link rel="stylesheet" href="{% static 'core/css/transfer-one.css' %}">
+    <style>
+        a{
+            text-decoration: none;
+            color: #002CB8 !important;
+        }
+    </style>
 </head>
 <body>
     <div class="send-container">
         <div class="send-nav">
             <div class="arrow">
-                <a href="#">
+                <a href="/dashboard/">
                     <img src="{% static 'core/asset/arrow.png' %}">
                 </a>
             </div>
@@ -34,7 +40,9 @@
 
         <div class="easily-two">Save your bank accounts and schedule <br> automatic GCash wallet transfer.</div>
 
-        <div class="add">Add account</div>
+        <a href="/transfer-two/">
+            <div class="add">Add account</div>
+        </a>
 
         <div class="partner-bank">Partner Bank</div>
 
