@@ -36,10 +36,10 @@
                     <span class="checkmark">✔</span>
                 </div>
 
-                <div class="title">J**|O*</div>
+                <div class="title">{% if send %}{{ send.reciever.username|default:"Recipient" }}{% elif transfer %}{{ transfer.account_name|default:"Recipient" }}{% else %}Recipient{% endif %}</div>
 
                 <div class="subtitle-container">
-                    <div class="subtitle">2119 3610 5658 </div>
+                    <div class="subtitle">{% if send %}{{ send.reciever.profile.account_number|default:"" }}{% elif transfer %}{{ transfer.account_number|default:"" }}{% else %}{% endif %}</div>
                 </div>
 
                 <div class="via">Sent via GCash</div>
@@ -48,18 +48,18 @@
                 
                 <div class="details">
                     <p>
-                        <span class="label">Amount</span> <span class="highlight">300.00</span>
+                        <span class="label">Amount</span> <span class="highlight">₱{% if transaction %}{{ transaction.amount }}{% else %}0.00{% endif %}</span>
                     </p>
 
                     <hr class="second-hr">
 
                     <p>
                         <span class="label">Total Amount Sent</span> 
-                        <span class="amount-total">₱945,880.<span class="amount-total-zero">00</span> </span>
+                        <span class="amount-total">₱{% if transaction %}{{ transaction.amount }}{% else %}0.00{% endif %}</span>
                     </p>
 
                     <p class="Payment-management"><span class="label">Sender</span> Payment Management</p>
-                    <p class="all-ref"><span class="label ref">Ref No. <span style="color: #292929;">239560808847w</span></span> <span style="color: #292929;" >Jan 31, 2024 9:42 PM</span></p>
+                    <p class="all-ref"><span class="label ref">Ref No. <span style="color: #292929;">{% if transaction %}{{ transaction.id }}{% else %}N/A{% endif %}</span></span> <span style="color: #292929;" >{% if transaction %}{{ transaction.date_time|date:"M d, Y h:i A" }}{% else %}N/A{% endif %}</span></p>
 
                 </div>
 
@@ -68,7 +68,7 @@
         </div>
 
         <div class="button-container">
-            <a href="#" class="btn">Return to Home</a>
+            <a href="/dashboard/" class="btn">Return to Home</a>
         </div>
 
     </div>

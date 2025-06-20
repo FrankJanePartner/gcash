@@ -1,0 +1,398 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lilita+One&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+.homepage-container {
+    background-color: #ECF3FB;
+}
+
+.wallet-header {
+    margin-left: 10.6rem;
+    padding-top: 2rem;
+}
+
+.wallet-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.wallet-logo span {
+    font-weight: 800;
+    font-size: 16px;
+    color: #1A72FA;
+}
+
+.wallet-column {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.first-wallet-column {
+    display: flex;
+    background-color: #035AE7;
+    width: 74vw;
+    height: 60px;
+}
+
+.wallet-text, .save-text, .borrow-text, .grow-text {
+    background-color: #1A72FA;
+    color: #FFFFFF;
+    font-weight: 600;
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* width: 89.5px; */ width: 400px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    cursor: pointer;
+}
+
+.save-text, .borrow-text, .grow-text {
+    background-color: #f9f9f9;
+    color: #1A72FA;
+}
+
+.wallet-container {
+    display: flex;
+    justify-content: center;
+}
+
+.wallet {
+    display: flex;
+    flex-direction: column;
+    background-color: #035AE7;
+    width: 74vw;
+    height: 145px;
+    padding: 20px;
+}
+
+.visible-cash {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.balance-amount{
+    font-weight: 600;
+    font-size: 24px;
+    color: #FFFFFF;
+}
+
+.cash-in {
+    width: 116px;
+    height: 36px;
+    font-size: 16px;
+    background: #DEEEFE;
+    color: #1A72FA;
+    border-radius: 20px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+}
+
+.copy-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 25px;
+}
+
+.clipboard-icon {
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+    filter: invert(1); /* makes black icon white */
+}
+
+ .copied-msg {
+    color: #FFFFFF;
+    font-size: 0.9rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.copied-msg.show {
+    opacity: 1;
+}
+
+.acc-word {
+    color: #A2D4FF;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.acc-num {
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.wallet-click-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.wallet-sub-click {
+    background-color: #FFFFFF;
+    width: 74vw;
+    height: 250px;
+}
+
+.click-option-one {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-top: 3rem;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    color: #002CB8;
+}
+
+.explore-extra {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 4.5rem;
+}
+
+.explore-app {
+    display: flex;
+    width: 74vw;
+    height: 280px;
+    background-color: #f9f9f9;
+}
+
+.explore-app-sub-container {
+    padding-top: 25px;
+    padding-left: 6rem;
+}
+
+.explore-text {
+    font-weight: 800;
+    font-size: 25px;
+}
+
+.explore-tab {
+    display: flex;
+    padding-top: 25px;
+    gap: 60px;
+    cursor: pointer;
+}
+
+.explore-option img{
+    padding: 10px;
+    border-radius: 50px;
+    background-color: #ECF3FB;
+}
+
+.g-insure-text {
+    font-weight: 600;
+    font-size: 16px;
+    color:#002CB8;
+    padding-top: 20px;
+}
+
+.bottom-navbar {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: #fff;
+  border-top: 1px solid #ddd;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px 0;
+  box-shadow: 0 -1px 5px rgba(0,0,0,0.1);
+}
+
+.bottom-navbar img {
+    width: 20px;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 12px;
+  color: #888;
+  text-decoration: none;
+}
+
+.nav-item i {
+  font-size: 18px;
+  margin-bottom: 4px;
+}
+
+.nav-item.active {
+  color: #007aff;
+}
+
+.nav-item.qr {
+  position: relative;
+  margin-top: -30px;
+}
+
+.qr-icon {
+  background-color: #fff;
+  border: 2px solid #007aff;
+  border-radius: 50%;
+  padding: 10px;
+  font-size: 20px;
+  color: #007aff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* RESPONSIVENESS START */
+@media screen and (max-width: 768px) {
+
+    .wallet-header {
+        margin-left: 1.5rem;
+        padding-top: 2rem;
+    }   
+
+    .wallet-column {
+        margin-top: 1.3rem;
+    }
+
+    .first-wallet-column {
+        width: 92%;
+        height: 30px;
+    }
+
+    .wallet {
+        width: 92%;
+    }
+
+    .cash-in {
+        width: 90px;
+        font-size: 14px;
+    }
+
+    .wallet-sub-click {
+        width: 92%;
+    }
+    .explore-app {
+        width: 92%;
+        height: 200px;
+    }
+
+    .explore-app-sub-container {
+        padding-top: 25px;
+        padding-left: 0rem;
+    }
+
+    .explore-text {
+        padding-left: 10px;
+    }
+
+    .explore-tab {
+        gap: 10px;
+        padding-left: 10px;
+    }
+
+    .explore-option img{
+       width: 5vh;
+       padding: 8px;
+    }
+    .g-insure-text {
+        font-size: 14px;
+    }
+
+    .bottom-navbar {
+        padding: 8px 0;
+    }
+
+    .nav-item i {
+        font-size: 16px;
+        font-weight: 500;
+    }
+
+    .nav-item span {
+       font-size: 11px;
+    }
+
+    .qr-icon {
+      font-size: 24px;
+      padding: 8px;
+    }
+}
+
+
+@media (max-width: 480px) {
+
+    .balance-amount{
+    font-size: 16px;
+    }
+
+    .cash-in {
+        width: 90px;
+        height: 25px;
+        font-size: 14px;
+    }
+
+    .acc-word, .acc-num {
+        font-size: 10px;
+    }
+
+      .explore-tab {
+        gap: 8px;
+        padding-left: 10px;
+    }
+
+    .explore-option img{
+       width: 5vh;
+       padding: 8px;
+    }
+
+    .g-insure-text {
+        font-size: 12px;
+    }
+
+    .nav-item span {
+        display: none; /* Hide text on very small screens */
+    }
+
+    .nav-item i {
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    .bottom-navbar img {
+    width: 24px;
+    }
+
+    .qr-icon {
+        padding: 10px;
+        font-size: 22px;
+    }
+  
+}
+
+
+
+
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+   
+}
+
+
+
+
+
+
+
+
+
+
+

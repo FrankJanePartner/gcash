@@ -12,12 +12,12 @@
     <div class="send-container">
         <div class="send-nav">
             <div class="arrow">
-                <a href="/transfer-two/">
+                <a href="#">
                     <img src="{% static 'core/asset/arrow.png' %}">
                 </a>
             </div>
 
-            <div class="send">Send</div>
+            <div class="send">Transfer</div>
 
             <div class="caution">
                 <img src="{% static 'core/asset/Frame.png' %}">
@@ -26,7 +26,7 @@
     </div>
 
     <div class="gcash-banner">
-        <img src="{% static 'core/asset/gcash_banner.png' %}">
+        <img src="{% static 'core/asset/gcash-banner1.png' %}">
     </div>
 
     <div class="content">
@@ -43,30 +43,25 @@
 
        <div class="form-group">
          <label for="amount">Amount</label>
-         <input id="amount" name="amount" type="text" value="{{ amount }}" readonly>
-      </div>
-
-      <div class="form-group">
-         <label for="username">Username</label>
-         <input id="username" name="username" type="text" value="{{ username }}" readonly>
+         <input id="amount" type="text" name="amount" value="{{ amount }}" readonly>
       </div>
 
       <div class="form-group">
          <label for="account-name">Account name</label>
-         <input id="account-name" name="account_name" type="text" value="{{ account_name }}" readonly>
+         <input id="account-name" type="text"  name="account_name" value="{{ account_name }}" readonly>
       </div>
 
       <div class="form-group">
          <label for="account-number">Account number</label>
-         <input id="account-number" name="account_number" type="text" value="{{ account_number }}" readonly>
+         <input id="account-number" type="text"  name="account_number" value="{{ account_number }}" readonly>
       </div>
 
       <div class="form-group">
          <label for="note">Send receipts to (optional)</label>
-         <input class="note-input" id="note" name="note" type="text" value="{{ note }}" readonly>
+         <input class="note-input" id="note"id="note" name="note" type="text" value="{{ note }}" readonly>
       </div>
 
-      <button class="send-btn" id="sendBtn" onclick="openModal()">Send Money</button>
+      <button class="send-btn" id="sendBtn"  onclick="openModal()">Send Money</button>
 
     </div>
 
@@ -81,21 +76,20 @@
         </div>
     <!-- Modal End-->
    
-    
+        
+    <script src="{% static 'core/transfer-three.js' %}"></script>    
     <script>
         let sendFormData = null;
 
         function openModal() {
             // Collect form data
             const amount = document.getElementById('amount').value;
-            const username = document.getElementById('username').value;
             const account_name = document.getElementById('account-name').value;
             const account_number = document.getElementById('account-number').value;
             const note = document.getElementById('note').value;
 
             sendFormData = new FormData();
             sendFormData.append('amount', amount);
-            sendFormData.append('username', username);
             sendFormData.append('account_name', account_name);
             sendFormData.append('account_number', account_number);
             sendFormData.append('note', note);
@@ -151,7 +145,6 @@
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
-                    alert('Transaction successful!');
                     window.location.href = '/success/';
                 } else {
                     alert(data.error || 'Invalid OTP or something went wrong.');

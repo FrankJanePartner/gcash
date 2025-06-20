@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | GCash</title>
-    <link rel="stylesheet" href="{% static 'core/css/homepage.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/dashboard.css' %}">
+    <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
     <style>
         a{
             text-decoration: none;
@@ -19,16 +20,9 @@
         <div class="wallet-header">
 
             <div class="wallet-logo">
-                <img src="{% static 'core/asset/logo 2.png' %}">
+                <img src="{% static 'core/asset/logo2.svg' %}">
                 <span>Hello {{ user }}!</span>
             </div>
-
-            <div class="tap">
-                <div>Tap for</div>
-                <div>Summer Deals</div>
-            </div>
-
-            <div class="help">Help</div>
 
         </div>
 
@@ -54,22 +48,22 @@
 
         <div class="wallet-container">
             <div class="wallet">
-            <div class="balance-section">
-                <div class="available-balance">Available balance</div>
-                <button class="eye-icon" onclick="toggleBalance()">👁️</button>
-            </div>
+                
+            <div class="available-balance">Available Balance</div>
 
             <div class="visible-cash">
-                <div id="balance" class="balance-amount">₱ ••••</div>
+                
+                <div id="balance" class="balance-amount">₱ {{ profile.balance }} </div>
                 <button class="cash-in">+ Cash In</button>
             </div>
 
-            <div class="copy-container">
+            <div class="copy-container">    
                 <div class="acc-word">Account No:</div>
                 <div class="acc-num" id="accountText">{{ profile.account_number }} </div>
                 <img src="https://img.icons8.com/material-outlined/24/000000/copy.png" alt="Copy" class="clipboard-icon" onclick="copyToClipboard()" />
                 <span class="copied-msg" id="copiedMsg">Copied!</span>
             </div>
+
             </div>
 
         </div>
@@ -81,28 +75,28 @@
 
                     <a href="/send/">
                         <div class="click-send">
-                            <img src="{% static 'core/asset/send.png' %}">
+                            <img src="{% static 'core/asset/send.svg' %}">
                             <div class="send-text">Send</div>
                         </div>
                     </a>
 
                     <a href="/">
-                        <div class="click-send">
-                            <img src="{% static 'core/asset/load.png' %}">
+                    <div class="click-send">
+                            <img src="{% static 'core/asset/load.svg' %}">
                             <div class="send-text">Load</div>
                         </div>
                     </a>
 
                     <a href="/transfer/">
-                        <div class="click-send">
-                            <img src="{% static 'core/asset/transfer.png' %}">
+                    <div class="click-send">
+                            <img src="{% static 'core/asset/transfer.svg' %}">
                             <div class="send-text">Transfer</div>
                         </div>
                     </a>
 
                     <a href="/">
-                        <div class="click-send">
-                            <img src="{% static 'core/asset/bills.png' %}">
+                    <div class="click-send">
+                            <img src="{% static 'core/asset/bills.svg' %}">
                             <div class="send-text">Bills</div>
                         </div>
                     </a>
@@ -111,137 +105,103 @@
 
                 <div class="click-option-one">
 
-                    <a href="/">
-                        <div class="click-send">
-                            <img src="{% static 'core/asset/send.png' %}">
+                    <a href="">
+                    <div clas/s="click-send">
+                            <img src="{% static 'core/asset/send.svg' %}">
                             <div class="send-text">Borrow</div>
                         </div>
        
                     </a>
-                    <a href="/">
-                        <div class="click-send">
-                            <img src="{% static 'core/asset/g-save.png' %}">
+                    <a href="">
+                    <div clas/s="click-send">
+                            <img src="{% static 'core/asset/g-save.svg' %}">
                             <div class="send-text">GSave</div>
                         </div>
        
                     </a>
-                    <a href="/">
-                        <div class="click-send">
-                            <img src="{% static 'core/asset/g-invest.png' %}">
+                    <a href="">
+                    <div clas/s="click-send">
+                            <img src="{% static 'core/asset/g-interest.svg' %}">
                             <div class="send-text">GInvest</div>
                         </div>
        
                     </a>
-                    <a href="/">
-                        <div class="click-send">
-                            <img src="{% static 'core/asset/view-all.png' %}">
+                    <a href="">
+                    <div clas/s="click-send">
+                            <img src="{% static 'core/asset/view-all.svg' %}">
                             <div class="send-text">View</div>
                         </div>
        
                     </a>
                 </div>
+
             </div>
 
         </div>
 
-        <div class="explore-app">
-            <div class="explore-text">Explore the App</div>
+        <div class="explore-extra">
+            <div class="explore-app">
+            <div class="explore-app-sub-container">
+                <div class="explore-text">Explore the App</div>
 
             <div class="explore-tab">
-                <a href="/">
-                    <div class="explore-option">
-                        <img src="{% static 'core/asset/g-insure.png' %}">
-                        <div class="g-insure-text">GInsure</div>
-                    </div>
-                </a>
+                <div class="explore-option">
+                    <img src="{% static 'core/asset/Ginsure.svg' %}">
+                    <div class="g-insure-text">GInsure</div>
+                </div>
 
-                <a href="/">
-                    <div class="explore-option">
-                        <img src="{% static 'core/asset/g-life.png' %}">
-                        <div class="g-insure-text">GLife</div>
-                    </div>
-                </a>
+                <div class="explore-option">
+                    <img src="{% static 'core/asset/glife.svg' %}">
+                    <div class="g-insure-text">GLife</div>
+                </div>
 
-                <a href="/">
-                    <div class="explore-option">
-                        <img src="{% static 'core/asset/review.png' %}">
-                        <div class="g-insure-text">Review</div>
-                    </div>
-                </a>
+                <div class="explore-option">
+                    <img src="{% static 'core/asset/review.svg' %}">
+                    <div class="g-insure-text">Review</div>
+                </div>
 
-                <a href="/">
-                    <div class="explore-option">
-                        <img src="{% static 'core/asset/forest.png' %}">
-                        <div class="g-insure-text">GForest</div>
-                    </div>
-                </a>
+                <div class="explore-option">
+                    <img src="{% static 'core/asset/forest.svg' %}">
+                    <div class="g-insure-text">GForest</div>
+                </div>
 
-                <a href="/">
-                    <div class="explore-option">
-                        <img src="{% static 'core/asset/card.png' %}">
-                        <div class="g-insure-text">Cards</div>
-                    </div>
-                </a>
+                <div class="explore-option">
+                    <img src="{% static 'core/asset/card.svg' %}">
+                    <div class="g-insure-text">Cards</div>
+                </div>
 
             </div>
 
-            <div class="banner-img">
-                <img src="{% static 'core/asset/gcash_banner.png' %}">
             </div>
+        </div>
         </div>
 
         <nav class="bottom-navbar">
     <a href="#" class="nav-item active">
-      <img src="{% static 'core/asset/home.png' %}">
+      <img src="{% static 'core/asset/home.svg' %}">
       <span>Home</span>
     </a>
     <a href="#" class="nav-item">
-      <img src="{% static 'core/asset/inbox.png' %}">
+      <img src="{% static 'core/asset/inbox.svg' %}">
       <span>Inbox</span>
     </a>
     <a href="#" class="nav-item qr">
       <div class="qr-icon">
-        <img src="{% static 'core/asset/qr-code.png' %}">
+        <img src="{% static 'core/asset/qr-code.svg' %}">
       </div>
       <span>QR</span>
     </a>
     <a href="#" class="nav-item">
-      <img src="{% static 'core/asset/transaction.png' %}">
+      <img src="{% static 'core/asset/transaction.svg' %}">
       <span>Transactions</span>
     </a>
     <a href="#" class="nav-item">
-      <img src="{% static 'core/asset/profile.png' %}" >
+      <img src="{% static 'core/asset/profile.svg' %}" >
       <span>Profile</span>
     </a>
   </nav>
     </div>
 
-    <script>
-        const balanceEl = document.getElementById('balance');
-    let isVisible = false;
-    const actualAmount = '₱ {{ balance }}';
-
-    function toggleBalance() {
-      isVisible = !isVisible;
-      balanceEl.textContent = isVisible ? actualAmount : '₱ ••••';
-    }
-
-
-
-// Clipboard Code Start
- function copyToClipboard() {
-      const text = document.getElementById("accountText").textContent;
-      navigator.clipboard.writeText(text).then(() => {
-        const msg = document.getElementById("copiedMsg");
-        msg.classList.add("show");
-        setTimeout(() => {
-          msg.classList.remove("show");
-        }, 2000); // hide after 2 seconds
-      }).catch(err => {
-        console.error("Failed to copy: ", err);
-      });
-    }
-// Clipboard Code End
-    </script>
+    <script src="{% static 'core/js/dashboard.js' %}"></script>
 </body>
 </html>

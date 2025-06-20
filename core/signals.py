@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 
 def generate_unique_account_number():
     while True:
-        number = str(random.randint(10_000_000_000, 99_999_999_999))
+        number = str(random.randint(100_000_000_000, 999_999_999_999))
         if not Profile.objects.filter(account_number=number).exists():
             return number
 

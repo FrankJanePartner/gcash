@@ -12,8 +12,8 @@ class Profile(models.Model):
     create_at = models.DateTimeField(auto_now_add=True)
 
 
-    def __st__(self):
-        return f'{self.user} Profile'
+    def __str__(self):
+        return f'{self.user.username} Profile'
     
 class Transaction(models.Model):
     id = models.AutoField(primary_key=True)
@@ -38,7 +38,7 @@ class Transaction(models.Model):
     date_time = models.DateTimeField(auto_now_add=True)
 
 
-    def __st__(self):
+    def __str__(self):
         return f'{self.transaction_type} of {self.amount} by {self.user}'
     
 class Transfer(models.Model):
@@ -49,7 +49,7 @@ class Transfer(models.Model):
     proof_of_payment = models.FileField(upload_to='Tranfers/')
     date_time = models.DateTimeField(auto_now_add=True)
 
-    def __st__(self):        
+    def __str__(self):        
         return f'transfer by {self.transaction.user}'
     
 
@@ -76,7 +76,7 @@ class VerificationCode(models.Model):
         verbose_name_plural = 'Verification Codes'
         ordering = ['-created_at']
 
-    def __st__(self):
+    def __str__(self):
         return f'Verification code of {self.transaction.transaction_type} by {self.transaction.user}'
 
     def check_validity(self, expiry_minutes=10):

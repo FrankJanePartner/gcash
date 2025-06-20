@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="{% static 'core/css/send-two.css' %}">
 </head>
 <body>
-    
     <div class="send-container">
         <div class="send-nav">
             <div class="arrow">
@@ -16,9 +15,7 @@
                     <img src="{% static 'core/asset/arrow.png' %}">
                 </a>
             </div>
-
             <div class="send">Send</div>
-
             <div class="caution">
                 <img src="{% static 'core/asset/Frame.png' %}">
             </div>
@@ -30,7 +27,7 @@
     </div>
 
     <div class="content">
-        <form action="" method="post"  id="sendForm" onsubmit="event.preventDefault(); openModal();">
+        <form action="" method="post" id="sendForm">
             {% csrf_token %}
             {% if form.non_field_errors %}
                 <div class="alert alert-danger" style="text-align: center; width: 100%; color: red;">
@@ -38,7 +35,6 @@
                 </div>
             {% endif %}
             
-            <!-- Loop through each field in the form -->
             {% for field in form %}
                 <div style="text-align: center; width: 100%; color: red;">
                     {% if field.errors %}
@@ -52,7 +48,6 @@
 
             <div class="form-group">
                 <label for="account">To (Account Number)</label>
-                <!-- <input id="account" type="text" value="63452746632" readonly> -->
                 <input id="account" name="account" type="text" placeholder="63452746632" value="">
                 <div class="account-name"></div>
             </div>
@@ -67,32 +62,35 @@
                 <input class="note-input" id="note" name="note" type="text" placeholder="What’s this for?">
             </div>
 
-            <button class="send-btn">Send Money</button>
+            <button class="send-btn" id="sendBtn" type="submit">Send Money</button>
         </form>
     </div>
 
-    <!-- Modal  Start-->
-        <div class="modal" id="transactionModal">
-            <div class="modal-content">
-                <h3>Enter Transaction Code</h3>
-                <p>To complete this transaction, please enter your transaction code.</p>
-                <input id="transactionCode"  name="otp" minlength="6" maxlength="6" type="password" placeholder="••••••">
-                <button class="confirm-btn" onclick="confirmTransaction()">Confirm Transaction</button>
-            </div>
+    <div class="modal" id="transactionModal">
+        <div class="modal-content">
+            <h3>Enter Transaction Code</h3>
+            <p>To complete this transaction, please enter your transaction code.</p>
+            <input id="transactionCode" name="otp" minlength="6" maxlength="6" type="password" placeholder="••••••">
+            <button class="confirm-btn" id="confirmBtn">Confirm Transaction</button>
         </div>
-    <!-- Modal End-->
-   
+    </div>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const accountInput = document.getElementById('account');
             const nameLabel = document.querySelector('.account-name');
+            const sendForm = document.getElementById('sendForm');
+            const sendBtn = document.getElementById('sendBtn');
+            const transactionModal = document.getElementById('transactionModal');
+            const confirmBtn = document.getElementById('confirmBtn');
+            const transactionCodeInput = document.getElementById('transactionCode');
+
+            let sendFormData = null; // Declare sendFormData globally or in a scope accessible by both functions
 
             // Auto-fetch account name when user types
             accountInput.addEventListener('input', function () {
                 const accountNumber = this.value.trim();
 
                 if (accountNumber.length >= 1) {
-                    // Add loading indicator (optional)
                     nameLabel.textContent = 'Looking up name...';
 
                     fetch(`/lookup/?account_number=${accountNumber}`)
@@ -117,79 +115,81 @@
                     nameLabel.textContent = '';
                 }
             });
+
+            // Handle form submission
+            sendForm.addEventListener('submit', function (event) {
+                event.preventDefault(); // Prevent default form submission
+
+                sendFormData = new FormData(sendForm);
+
+                // Disable send button and show loading text
+                if (sendBtn) {
+                    sendBtn.disabled = true;
+                    sendBtn.textContent = 'Sending...';
+                }
+
+                fetch("{% url 'core:send-two' %}", {
+                    method: "POST",
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}',
+                    },
+                    body: sendFormData
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        transactionModal.style.display = 'flex';
+                    } else {
+                        alert(data.error || 'Failed to send OTP.');
+                        // Re-enable send button and restore text if OTP sending failed
+                        if (sendBtn) {
+                            sendBtn.disabled = false;
+                            sendBtn.textContent = 'Send Money';
+                        }
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert('Something went wrong. Try again.');
+                    // Re-enable send button and restore text on error
+                    if (sendBtn) {
+                        sendBtn.disabled = false;
+                        sendBtn.textContent = 'Send Money';
+                    }
+                });
+            });
+
+            // Handle confirm transaction button click
+            confirmBtn.addEventListener('click', function () {
+                const otp = transactionCodeInput.value;
+                if (otp.length !== 6) {
+                    alert('OTP must be 6 digits.');
+                    return;
+                }
+
+                sendFormData.append('otp', otp);
+
+                fetch("{% url 'core:send-two' %}", {
+                    method: "POST",
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}',
+                    },
+                    body: sendFormData
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        window.location.href = '/success/';
+                    } else {
+                        alert(data.error || 'Invalid OTP or something went wrong.');
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert('Something went wrong. Try again.');
+                });
+            });
         });
-
-
-        let sendFormData = null;
-
-        function openModal() {
-            const form = document.getElementById('sendForm');
-            sendFormData = new FormData(form);
-
-            // Disable send button and show loading text
-            const sendBtn = document.getElementById('sendBtn');
-            sendBtn.disabled = true;
-            const originalText = sendBtn.textContent;
-            sendBtn.textContent = 'Sending...';
-
-            fetch("{% url 'core:send-two' %}", {
-                method: "POST",
-                headers: {
-                    'X-CSRFToken': '{{ csrf_token }}',
-                },
-                body: sendFormData
-            })
-            .then(res => res.json())
-            .then(data => {
-                if (data.success) {
-                    document.getElementById('transactionModal').style.display = 'flex';
-                } else {
-                    alert(data.error || 'Failed to send OTP.');
-                }
-            })
-            .catch(err => {
-                console.error(err);
-                alert('Something went wrong. Try again.');
-            })
-            .finally(() => {
-                // Re-enable send button and restore text
-                sendBtn.disabled = false;
-                sendBtn.textContent = originalText;
-            });
-        }
-
-
-        function confirmTransaction() {
-            const otp = document.getElementById('transactionCode').value;
-            if (otp.length !== 6) {
-                alert('OTP must be 6 digits.');
-                return;
-            }
-
-            sendFormData.append('otp', otp);
-
-            fetch("{% url 'core:send-two' %}", {
-                method: "POST",
-                headers: {
-                    'X-CSRFToken': '{{ csrf_token }}',
-                },
-                body: sendFormData
-            })
-            .then(res => res.json())
-            .then(data => {
-                if (data.success) {
-                    window.location.href = '/success/';
-                } else {
-                    alert(data.error || 'Invalid OTP or something went wrong.');
-                }
-            })
-            .catch(err => {
-                console.error(err);
-                alert('Something went wrong. Try again.');
-            });
-        }
     </script>
-    <!-- <script src="{% static 'core/js/send-two.js' %}"></script> -->
-
 </body>
 </html>

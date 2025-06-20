@@ -1,0 +1,129 @@
+{
+  "universal_banks": [
+    {
+      "bank-name": "BDO Unibank, Inc.",
+      "bank-logo": "/static/bank/logo/BDO.png",
+      "bank-code": "BDO"
+    },
+    {
+      "bank-name": "Metropolitan Bank & Trust Company (Metrobank)",
+      "bank-logo": "/static/bank/logo/Metrobank.png",
+      "bank-code": "MBTC"
+    },
+    {
+      "bank-name": "Bank of the Philippine Islands (BPI)",
+      "bank-logo": "/static/bank/logo/BPI.png",
+      "bank-code": "BPI"
+    },
+    {
+      "bank-name": "Land Bank of the Philippines",
+      "bank-logo": "/static/bank/logo/LANDBANK.png",
+      "bank-code": "LANDBANK"
+    },
+    {
+      "bank-name": "Philippine National Bank",
+      "bank-logo": "/static/bank/logo/PNB.png",
+      "bank-code": "PNB"
+    },
+    {
+      "bank-name": "China Banking Corporation",
+      "bank-logo": "/static/bank/logo/ChinaBank.jpeg",
+      "bank-code": "CHINABANK"
+    },
+    {
+      "bank-name": "Rizal Commercial Banking Corporation",
+      "bank-logo": "/static/bank/logo/RCBC.png",
+      "bank-code": "RCBC"
+    },
+    {
+      "bank-name": "Union Bank of the Philippines",
+      "bank-logo": "/static/bank/logo/UnionBank.jpeg",
+      "bank-code": "UBP"
+    },
+    {
+      "bank-name": "Security Bank Corporation",
+      "bank-logo": "/static/bank/logo/SecurityBank.jpeg",
+      "bank-code": "SECB"
+    },
+    {
+      "bank-name": "Development Bank of the Philippines",
+      "bank-logo": "/static/bank/logo/DBP.jpeg",
+      "bank-code": "DBP"
+    },
+    {
+      "bank-name": "EastWest Bank",
+      "bank-logo": "/static/bank/logo/EastWest.png",
+      "bank-code": "EWB"
+    },
+    {
+      "bank-name": "Asia United Bank",
+      "bank-logo": "/static/bank/logo/AUB.png",
+      "bank-code": "AUB"
+    },
+    {
+      "bank-name": "Philippine Bank of Communications",
+      "bank-logo": "/static/bank/logo/PBCOM.jpeg",
+      "bank-code": "PBCOM"
+    },
+    {
+      "bank-name": "Robinsons Bank",
+      "bank-logo": "/static/bank/logo/RobinsonsBank.png",
+      "bank-code": "RBANK"
+    },
+    {
+      "bank-name": "Sterling Bank of Asia",
+      "bank-logo": "/static/bank/logo/Sterling.png",
+      "bank-code": "SBA"
+    },
+    {
+      "bank-name": "Philippine Business Bank",
+      "bank-logo": "/static/bank/logo/PBB.jpeg",
+      "bank-code": "PBB"
+    },
+    {
+      "bank-name": "Maybank Philippines",
+      "bank-logo": "/static/bank/logo/Maybank.png",
+      "bank-code": "MAYBANK"
+    },
+    {
+      "bank-name": "HSBC Philippines",
+      "bank-logo": "/static/bank/logo/HSBC.png",
+      "bank-code": "HSBC"
+    },
+    {
+      "bank-name": "Citibank Philippines",
+      "bank-logo": "/static/bank/logo/Citibank.png",
+      "bank-code": "CITI"
+    },
+    {
+      "bank-name": "Cantilan Bank",
+      "bank-logo": "/static/bank/logo/Cantilan.png",
+      "bank-code": "CBI"
+    },
+    {
+      "bank-name": "One Network Bank",
+      "bank-logo": "/static/bank/logo/ONB.jpeg",
+      "bank-code": "ONB"
+    },
+    {
+      "bank-name": "Rang-ay Bank",
+      "bank-logo": "/static/bank/logo/RangAy.png",
+      "bank-code": "RANGAY"
+    },
+    {
+      "bank-name": "Card Bank, Inc.",
+      "bank-logo": "/static/bank/logo/CARD.png",
+      "bank-code": "CARD"
+    },
+    {
+      "bank-name": "Bangko Kabayan",
+      "bank-logo": "/static/bank/logo/BangkoKabayan.jpeg",
+      "bank-code": "BK"
+    },
+    {
+      "bank-name": "Producers Bank",
+      "bank-logo": "/static/bank/logo/Producers.jpeg",
+      "bank-code": "PRODUCERS"
+    }
+  ]
+}
