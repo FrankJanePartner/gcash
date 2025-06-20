@@ -5,10 +5,56 @@ from decimal import Decimal
 import random
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
-from django.views.decorators.http import require_GET
+from django.views.decorators.http import require_GET, require_http_methods
 from .models import Profile, Transaction, Transfer, Send, VerificationCode
 import json
-from django.views.decorators.http import require_http_methods
+from django.http import JsonResponse
+import os
+from django.conf import settings
+
+
+@csrf_exempt
+@login_required
+@require_http_methods(["POST"])
+def otp_create(request):
+    user = request.user
+    try:
+        data = json.loads(request.body)
+        account_number = data.get('account', '').strip()
+        amount_str = data.get('amount', '').strip()
+        note = data.get('note', '').strip()
+
+        if not account_number or not amount_str:
+            return JsonResponse({'success': False, 'error': 'Account number and amount are required.'})
+
+        try:
+            amount = Decimal(amount_str)
+        except:
+            return JsonResponse({'success': False, 'error': 'Invalid amount.'})
+
+        # Create transaction with status pending
+        transaction = Transaction.objects.create(
+            user=user,
+            transaction_type='Send',
+            amount=amount,
+            status='pending'
+        )
+
+        # Create verification code
+        code = random.randint(100000, 999999)
+        VerificationCode.objects.create(
+            transaction=transaction,
+            code=code,
+            expired=False
+        )
+
+        # Store transaction id in session for OTP verification
+        request.session['transaction_id'] = transaction.id
+
+        return JsonResponse({'success': True, 'message': 'OTP created and sent.'})
+
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)})
 import os
 from django.conf import settings
 
@@ -132,14 +178,11 @@ def sendTwo(request):
                 transaction.status = 'successful'
                 transaction.save(update_fields=['status'])
 
-                profile.balance -= amount
-                profile.save()
-
                 del request.session['temp_transaction']
                 del request.session['otp_code']
                 del request.session['transaction_id']
 
-                return JsonResponse({'success': True})
+                return JsonResponse({'success': True, 'transaction_id': transaction.id})
 
             except VerificationCode.DoesNotExist:
                 transaction = Transaction.objects.get(id=transaction_id)
@@ -171,10 +214,6 @@ def transfer(request):
 
 @login_required
 def transferTwo(request):
-    import os
-    import json
-    from django.conf import settings
-
     # Load banks.json
     banks_path = os.path.join(settings.BASE_DIR, 'static', 'data', 'banks.json')
     with open(banks_path, 'r') as f:
@@ -216,7 +255,6 @@ def transferThree(request):
 
         if not otp:
             # Stage 1: Create transaction and generate OTP
-            nickname = request.POST.get('nickname', '').strip()
             account_name = request.POST.get('account_name', '').strip()
             account_number = request.POST.get('account_number', '').strip()
             note = request.POST.get('note', '').strip()
@@ -282,7 +320,7 @@ def transferThree(request):
                 profile.balance -= amount
                 profile.save()
 
-                return JsonResponse({'success': True})
+                return JsonResponse({'success': True, 'transaction_id': transaction.id})
             except VerificationCode.DoesNotExist:
                 transaction = Transaction.objects.get(id=transaction_id)
                 transaction.status = 'failed'
@@ -294,7 +332,6 @@ def transferThree(request):
     else:
         selected_bank_code = request.GET.get('bank_code', '').strip()
         amount = request.GET.get('amount', '').strip()
-        username = request.GET.get('username', '').strip()
         account_name = request.GET.get('account_name', '').strip()
         account_number = request.GET.get('account_number', '').strip()
         note = request.GET.get('note', '').strip()
@@ -316,7 +353,6 @@ def transferThree(request):
             'balance': profile.balance,
             'selected_bank': selected_bank,
             'amount': amount,
-            'username': username,
             'account_name': account_name,
             'account_number': account_number,
             'note': note,
@@ -326,7 +362,27 @@ def transferThree(request):
 
 @login_required
 def success(request):
-    return render(request, 'core/transfer-successful.html')
+    transaction_id = request.GET.get('transaction_id')
+    transaction = None
+    send = None
+    transfer = None
+
+    if transaction_id:
+        try:
+            transaction = Transaction.objects.get(id=transaction_id)
+            if transaction.transaction_type == 'Send':
+                send = Send.objects.filter(transaction=transaction).first()
+            elif transaction.transaction_type == 'Transfer':
+                transfer = Transfer.objects.filter(transaction=transaction).first()
+        except Transaction.DoesNotExist:
+            transaction = None
+
+    context = {
+        'transaction': transaction,
+        'send': send,
+        'transfer': transfer,
+    }
+    return render(request, 'core/transfer-successful.html', context)
 
 
 @login_required
