@@ -178,8 +178,7 @@
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
-                    alert('Transaction successful!');
-                    window.location.href = '/dashboard/';
+                    window.location.href = '/success/';
                 } else {
                     alert(data.error || 'Invalid OTP or something went wrong.');
                 }
